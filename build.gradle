@@ -16,9 +16,30 @@ sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.resources.srcDirs = [ "resources/" ]
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.dmulloy2.net/repository/public/" }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://jitpack.io' }
+}
 
 dependencies {
 
     implementation project(":freedylang")
+    implementation project(":common")
+
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    compileOnly 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
+//    compileOnly 'org.spigotmc:spigot:1.18-R0.1-SNAPSHOT'
+
 }
 

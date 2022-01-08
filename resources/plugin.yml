@@ -1,0 +1,6 @@
+name: McFreedyLang
+main: me.brucefreedy.mcfreedylang.Plugin
+version: 1.0
+api-version: 1.18
+commands:
+  fl:
