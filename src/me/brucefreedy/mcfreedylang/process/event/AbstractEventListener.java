@@ -1,8 +1,9 @@
 package me.brucefreedy.mcfreedylang.process.event;
 
 import me.brucefreedy.freedylang.lang.ParseUnit;
+import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
-import me.brucefreedy.freedylang.lang.abst.ProcessImpl;
+import me.brucefreedy.freedylang.lang.abst.EmptyImpl;
 import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
 import me.brucefreedy.mcfreedylang.API;
@@ -10,18 +11,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
-public abstract class AbstractEventListener<EV extends Event> extends ProcessImpl<AbstractEventListener<EV>>
+public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<AbstractEventListener<EV>>
         implements Listener {
+
+    Process<?> body;
 
     @Override
     public void parse(ParseUnit parseUnit) {
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
-            super.parse(parseUnit);
-    }
-
-    @Override
-    public void run(ProcessUnit processUnit) {
-        super.run(processUnit);
+        body = Process.parsing(parseUnit);
     }
 
     @Override
@@ -38,10 +36,10 @@ public abstract class AbstractEventListener<EV extends Event> extends ProcessImp
     }
 
     public void onEvent(EV event) {
-        VariableRegister variableRegister = API.getRegister().getVariableRegister();
-        if (process instanceof AbstractFront) ((AbstractFront) process).setBeforeRun(() -> wrap(event, variableRegister));
+        VariableRegister variableRegister = API.getRegister().getProcessRegister().getVariableRegister();
+        if (body instanceof AbstractFront) ((AbstractFront) body).setBeforeRun(() -> wrap(event, variableRegister));
         else wrap(event, variableRegister);
-        process.run(new ProcessUnit(variableRegister));
+        body.run(new ProcessUnit(variableRegister));
     }
 
 }

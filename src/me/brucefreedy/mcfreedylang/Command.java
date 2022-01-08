@@ -12,12 +12,12 @@ public class Command implements CommandExecutor {
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         String arg = String.join(" ", args);
         if (arg.equalsIgnoreCase("reload")) {
-            Plugin.getInst().load();
+            API.getRegister().load();
             System.out.println("Reloaded");
             return true;
         }
-        Process.parsing(new ParseUnit(API.getRegister(), "{" + arg + "}"))
-                .run(new ProcessUnit(API.getRegister().getVariableRegister()));
+        Process.parsing(new ParseUnit(API.getRegister().getProcessRegister(), "{" + arg + "}"))
+                .run(new ProcessUnit(API.getRegister().getProcessRegister().getVariableRegister()));
         return true;
     }
 }
