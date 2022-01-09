@@ -10,7 +10,8 @@ import java.util.function.Supplier;
 @Getter
 @AllArgsConstructor
 public enum ProcessDefs {
-    PLAYER_JOIN(EventListener.PlayerJoin::new),
+    JOIN(EventListener.PlayerJoin::new),
+    LEFT(EventListener.PlayerLeft::new),
     ;
     private Supplier<Process<?>> supplier;
 }

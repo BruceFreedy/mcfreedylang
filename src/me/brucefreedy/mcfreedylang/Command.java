@@ -3,6 +3,7 @@ package me.brucefreedy.mcfreedylang;
 import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
+import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -16,8 +17,9 @@ public class Command implements CommandExecutor {
             System.out.println("Reloaded");
             return true;
         }
-        Process.parsing(new ParseUnit(API.getRegister().getProcessRegister(), "{" + arg + "}"))
-                .run(new ProcessUnit(API.getRegister().getProcessRegister().getVariableRegister()));
+        Process<?> parsing = Process.parsing(new ParseUnit(API.getRegister().getProcessRegister(), "{" + arg + "}"));
+        ((AbstractFront) parsing).setScopeSupplier(() -> API.getRegister().getScope());
+        parsing.run(new ProcessUnit(API.getRegister().getProcessRegister().getVariableRegister()));
         return true;
     }
 }
