@@ -1,6 +1,7 @@
 package me.brucefreedy.mcfreedylang.process.event;
 
 import me.brucefreedy.freedylang.lang.Processable;
+import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
 import me.brucefreedy.mcfreedylang.variable.VPlayer;
 import org.bukkit.event.EventHandler;
@@ -16,14 +17,14 @@ public interface EventListener {
             super.onEvent(event);
         }
         @Override
-        protected void wrap(PlayerJoinEvent event, VariableRegister variableRegister) {
-            super.wrap(event, variableRegister);
-            variableRegister.setVariable("joinMessage", event.getJoinMessage());
+        protected void wrap(PlayerJoinEvent event, Scope scope) {
+            super.wrap(event, scope);
+            scope.register("joinMessage", event.getJoinMessage());
         }
         @Override
-        protected void map(PlayerJoinEvent event, VariableRegister variableRegister) {
-            super.map(event, variableRegister);
-            event.setJoinMessage(variableRegister.getVariable("joinMessage").toString());
+        protected void map(PlayerJoinEvent event, Scope scope) {
+            super.map(event, scope);
+            event.setJoinMessage(scope.getRegistry("joinMessage").toString());
         }
     }
 
@@ -34,22 +35,22 @@ public interface EventListener {
             super.onEvent(event);
         }
         @Override
-        protected void wrap(PlayerQuitEvent event, VariableRegister variableRegister) {
-            super.wrap(event, variableRegister);
-            variableRegister.setVariable("leftMessage", event.getQuitMessage());
+        protected void wrap(PlayerQuitEvent event, Scope scope) {
+            super.wrap(event, scope);
+            scope.register("leftMessage", event.getQuitMessage());
         }
         @Override
-        protected void map(PlayerQuitEvent event, VariableRegister variableRegister) {
-            super.map(event, variableRegister);
-            event.setQuitMessage(variableRegister.getVariable("leftMessage").toString());
+        protected void map(PlayerQuitEvent event, Scope scope) {
+            super.map(event, scope);
+            event.setQuitMessage(scope.getRegistry("leftMessage").toString());
         }
     }
 
     abstract class AbstractPlayer<T extends org.bukkit.event.player.PlayerEvent> extends AbstractEventListener<T> {
         @Override
-        protected void wrap(T event, VariableRegister variableRegister) {
-            super.wrap(event, variableRegister);
-            variableRegister.setVariable("player", new VPlayer(event.getPlayer()));
+        protected void wrap(T event, Scope scope) {
+            super.wrap(event, scope);
+            scope.register("player", new VPlayer(event.getPlayer()));
         }
     }
 

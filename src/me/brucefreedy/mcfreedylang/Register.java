@@ -23,7 +23,6 @@ public class Register {
     private ProcessRegister processRegister;
     @Getter
     private Scope scope;
-    private List<VariableImpl> classes = new List<>();
 
     public Register() {
         load();
@@ -49,7 +48,6 @@ public class Register {
             ((AbstractFront) process).setScopeSupplier(() -> scope);
             process.run(new ProcessUnit(processRegister.getVariableRegister()));
         });
-        scope.getRegistry().forEach(o -> classes.add(((VariableImpl) o)));
     }
 
 

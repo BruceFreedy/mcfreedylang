@@ -5,6 +5,7 @@ import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
 import me.brucefreedy.freedylang.lang.abst.EmptyImpl;
 import me.brucefreedy.freedylang.lang.body.AbstractFront;
+import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
 import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
     public void parse(ParseUnit parseUnit) {
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
         body = Process.parsing(parseUnit);
+
     }
 
     @Override
@@ -27,19 +29,20 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         return this;
     }
 
-    protected void wrap(EV event, VariableRegister variableRegister) {
-        variableRegister.setVariable("eventName", event.getEventName());
+    protected void wrap(EV event, Scope scope) {
+        scope.register("eventName", event.getEventName());
     }
 
-    protected void map(EV event, VariableRegister variableRegister) {
-
-    }
+    protected void map(EV event, Scope scope) {}
 
     public void onEvent(EV event) {
-        VariableRegister variableRegister = API.getRegister().getProcessRegister().getVariableRegister();
-        if (body instanceof AbstractFront) ((AbstractFront) body).setBeforeRun(() -> wrap(event, variableRegister));
-        else wrap(event, variableRegister);
-        body.run(new ProcessUnit(variableRegister));
+        Scope scope = new Scope(Scope.ScopeType.METHOD);
+        if (body instanceof AbstractFront) ((AbstractFront) body).setBeforeRun(() -> wrap(event, scope));
+        else wrap(event, scope);
+        VariableRegister register = new VariableRegister();
+        register.add(API.getRegister().getScope());
+        register.add(scope);
+        body.run(new ProcessUnit(register));
     }
 
 }

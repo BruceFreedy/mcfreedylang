@@ -28,9 +28,7 @@ repositories {
 }
 
 dependencies {
-
-    implementation project(":freedylang")
-    implementation project(":common")
+    implementation rootProject.fileTree(dir: 'libs', include: ['*.jar'])
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -43,3 +41,6 @@ dependencies {
 
 }
 
+shadowJar {
+    destinationDir = file('C:\\Users\\Bruce\\Desktop\\mcserver\\plugins\\update')
+}
