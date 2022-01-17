@@ -2,12 +2,10 @@ package me.brucefreedy.mcfreedylang;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
 import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.scope.Scope;
-import me.brucefreedy.freedylang.lang.variable.VariableImpl;
 import me.brucefreedy.freedylang.registry.ProcessRegister;
 import me.brucefreedy.freedylang.registry.ProcessUtils;
 import org.bukkit.event.HandlerList;
