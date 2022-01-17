@@ -15,5 +15,4 @@ public class VEntity<T extends Entity> extends AbstractVar<T> {
         register("name", stringValue(object::setCustomName, object::getName));
     }
 
-//bump
 }
