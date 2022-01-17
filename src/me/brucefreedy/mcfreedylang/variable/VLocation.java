@@ -4,17 +4,16 @@ import me.brucefreedy.freedylang.lang.variable.AbstractVar;
 import org.bukkit.Location;
 
 public class VLocation extends AbstractVar<Location> {
+
     public VLocation(Location object) {
         super(object);
-        registerMethod("x", doubleValue(object::setX, object::getX));
-        registerMethod("y", doubleValue(object::setY, object::getY));
-        registerMethod("z", doubleValue(object::setZ, object::getZ));
-        registerMethod("yaw", floatValue(object::setYaw, object::getYaw));
-        registerMethod("pitch", floatValue(object::setPitch, object::getPitch));
+        register("x", doubleValue(object::setX, object::getX));
+        register("y", doubleValue(object::setY, object::getY));
+        register("z", doubleValue(object::setZ, object::getZ));
+        register("yaw", floatValue(object::setYaw, object::getYaw));
+        register("pitch", floatValue(object::setPitch, object::getPitch));
         register("world", new VWorld(object.getWorld()));
 
     }
-
-
 
 }

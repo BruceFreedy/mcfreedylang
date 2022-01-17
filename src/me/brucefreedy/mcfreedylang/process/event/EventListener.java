@@ -2,7 +2,6 @@ package me.brucefreedy.mcfreedylang.process.event;
 
 import me.brucefreedy.freedylang.lang.Processable;
 import me.brucefreedy.freedylang.lang.scope.Scope;
-import me.brucefreedy.freedylang.lang.variable.VariableRegister;
 import me.brucefreedy.mcfreedylang.variable.VPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
