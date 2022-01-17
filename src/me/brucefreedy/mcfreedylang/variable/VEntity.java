@@ -3,7 +3,6 @@ package me.brucefreedy.mcfreedylang.variable;
 import me.brucefreedy.freedylang.lang.variable.AbstractVar;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 public class VEntity<T extends Entity> extends AbstractVar<T> {
     
