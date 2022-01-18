@@ -50,5 +50,10 @@ public class RepeatTask implements Process<Object> {
     public Object get() {
         return result;
     }
+
+    @Override
+    public String toString() {
+        return result.toString();
+    }
 }
 
