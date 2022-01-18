@@ -11,7 +11,7 @@ public class VEntity<T extends Entity> extends AbstractVar<T> {
         register("location", method(o -> o instanceof VLocation, Location.class, location -> {
             object.sendMessage("debugmessage");
             object.teleport(location);
-        }, () -> this));
+        }, () -> new VLocation(object.getLocation())));
         register("name", stringValue(object::setCustomName, object::getName));
     }
 
