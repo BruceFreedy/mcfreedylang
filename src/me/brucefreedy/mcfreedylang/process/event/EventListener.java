@@ -114,7 +114,6 @@ public interface EventListener {
         @EventHandler
         public void onEvent(PlayerMoveEvent event) {
             super.onEvent(event);
-            event.setCancelled(true);
         }
         @Override
         protected void wrap(PlayerMoveEvent event, Scope scope) {
@@ -158,8 +157,11 @@ public interface EventListener {
         protected void map(T event, Scope scope) {
             super.map(event, scope);
             Object cancelled = scope.getRegistry("cancelled");
-            if (cancelled instanceof True) event.setCancelled(true);
-            else if (cancelled instanceof False) event.setCancelled(false);
+            if (cancelled != null) {
+                String s = cancelled.toString();
+                if (s.equals("true")) event.setCancelled(true);
+                else if (s.equals("false")) event.setCancelled(false);
+            }
         }
     }
 
