@@ -12,6 +12,10 @@ import java.util.function.Supplier;
 public enum ProcessDefs {
     JOIN(EventListener.PlayerJoin::new),
     LEFT(EventListener.PlayerLeft::new),
+    INTERACT(EventListener.PlayerInteract::new),
+    CHAT(EventListener.PlayerChat::new),
+    COMMAND(EventListener.PlayerCommand::new),
+
     ;
     private Supplier<Process<?>> supplier;
 }
