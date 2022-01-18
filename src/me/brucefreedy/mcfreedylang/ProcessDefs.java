@@ -15,6 +15,7 @@ public enum ProcessDefs {
     INTERACT(EventListener.PlayerInteract::new),
     CHAT(EventListener.PlayerChat::new),
     COMMAND(EventListener.PlayerCommand::new),
+    MOVE(EventListener.PlayerMove::new),
 
     ;
     private Supplier<Process<?>> supplier;

@@ -109,7 +109,7 @@ public interface EventListener {
         }
     }
 
-    @Processable(alias = "PlayerMove")
+    @Processable(alias = "@move")
     class PlayerMove extends AbstractPlayerCancellable<PlayerMoveEvent> {
         @EventHandler
         public void onEvent(PlayerMoveEvent event) {
