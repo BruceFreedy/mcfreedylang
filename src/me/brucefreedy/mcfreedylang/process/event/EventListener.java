@@ -118,7 +118,7 @@ public interface EventListener {
         }
     }
 
-    abstract class AbstractPlayerCancellable<T extends org.bukkit.event.player.PlayerEvent & Cancellable> extends AbstractEventCanncellable<T> {
+    abstract class AbstractPlayerCancellable<T extends org.bukkit.event.player.PlayerEvent & Cancellable> extends AbstractEventCancellable<T> {
         @Override
         protected void wrap(T event, Scope scope) {
             super.wrap(event, scope);
@@ -126,9 +126,10 @@ public interface EventListener {
         }
     }
 
-    abstract class AbstractEventCanncellable<T extends Event & Cancellable> extends AbstractEventListener<T> {
+    abstract class AbstractEventCancellable<T extends Event & Cancellable> extends AbstractEventListener<T> {
         @Override
         protected void wrap(T event, Scope scope) {
+            super.wrap(event, scope);
             register(scope, "cancelled", Bool.get(event.isCancelled()));
         }
         @Override
