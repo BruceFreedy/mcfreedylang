@@ -114,6 +114,7 @@ public interface EventListener {
         @EventHandler
         public void onEvent(PlayerMoveEvent event) {
             super.onEvent(event);
+            event.setCancelled(true);
         }
         @Override
         protected void wrap(PlayerMoveEvent event, Scope scope) {
