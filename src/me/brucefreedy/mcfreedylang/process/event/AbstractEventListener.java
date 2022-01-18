@@ -44,6 +44,7 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         register.add(API.getRegister().getScope());
         register.add(scope);
         body.run(new ProcessUnit(register));
+        map(event, scope);
     }
 
     protected void register(Scope scope, String name, Object o) {
