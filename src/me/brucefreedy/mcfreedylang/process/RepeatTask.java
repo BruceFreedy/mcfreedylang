@@ -13,7 +13,7 @@ import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.Bukkit;
 
 @Processable(alias = "repeat")
-public class RepeatTask extends EmptyImpl<Object> {
+public class RepeatTask implements Process<Object> {
 
     Object result = new Null();
     Process<?> delay;

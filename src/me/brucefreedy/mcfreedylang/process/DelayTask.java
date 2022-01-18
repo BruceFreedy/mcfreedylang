@@ -4,7 +4,6 @@ import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
 import me.brucefreedy.freedylang.lang.Processable;
-import me.brucefreedy.freedylang.lang.abst.EmptyImpl;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
@@ -13,7 +12,7 @@ import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.Bukkit;
 
 @Processable(alias = "delay")
-public class DelayTask extends EmptyImpl<Object> {
+public class DelayTask implements Process<Object> {
 
     Object result = new Null();
     Process<?> delay;
