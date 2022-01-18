@@ -1,11 +1,10 @@
 package me.brucefreedy.mcfreedylang.process;
 
-import me.brucefreedy.freedylang.lang.ParseUnit;
+import me.brucefreedy.freedylang.lang.*;
 import me.brucefreedy.freedylang.lang.Process;
-import me.brucefreedy.freedylang.lang.ProcessUnit;
-import me.brucefreedy.freedylang.lang.Processable;
 import me.brucefreedy.freedylang.lang.abst.EmptyImpl;
 import me.brucefreedy.freedylang.lang.abst.Null;
+import me.brucefreedy.freedylang.lang.abst.Stacker;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
@@ -13,7 +12,7 @@ import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.Bukkit;
 
 @Processable(alias = "repeat")
-public class RepeatTask implements Process<Object> {
+public class RepeatTask implements Process<Object>, Stacker<Object> {
 
     Object result = new Null();
     Process<?> delay;
@@ -54,6 +53,11 @@ public class RepeatTask implements Process<Object> {
     @Override
     public String toString() {
         return result.toString();
+    }
+
+    @Override
+    public Process<?> getProcess() {
+        return new Breaker();
     }
 }
 
