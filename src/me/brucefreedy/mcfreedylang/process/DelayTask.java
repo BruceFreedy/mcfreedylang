@@ -16,20 +16,22 @@ import org.bukkit.Bukkit;
 public class DelayTask extends EmptyImpl<Object> {
 
     Object result = new Null();
-    long delay;
+    Process<?> delay;
     Process<?> body;
 
     @Override
     public void parse(ParseUnit parseUnit) {
-        Process<?> process = Process.parsing(parseUnit);
-        Object o = process.get();
-        if (o instanceof Number) delay = ((Number) o).getNumber().longValue();
-        else return;
+        delay = Process.parsing(parseUnit);
         body = Process.parsing(parseUnit);
     }
 
     @Override
     public void run(ProcessUnit processUnit) {
+        long delay;
+        this.delay.run(processUnit);
+        Object delayO = this.delay.get();
+        if (delayO instanceof Number) delay = ((Number) delayO).getNumber().longValue();
+        else return;
         int id = Bukkit.getScheduler().runTaskLater(API.getPlugin(), () -> {
             VariableRegister register = new VariableRegister();
             register.add(API.getRegister().getScope());

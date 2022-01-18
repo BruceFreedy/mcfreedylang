@@ -16,26 +16,28 @@ import org.bukkit.Bukkit;
 public class RepeatTask extends EmptyImpl<Object> {
 
     Object result = new Null();
-    long delay;
-    long period;
+    Process<?> delay;
+    Process<?> period;
     Process<?> body;
-
-    private long workNumber(ParseUnit parseUnit) {
-        Process<?> process = Process.parsing(parseUnit);
-        Object o = process.get();
-        if (o instanceof Number) return ((Number) o).getNumber().longValue();
-        else return 0;
-    }
 
     @Override
     public void parse(ParseUnit parseUnit) {
-        delay = workNumber(parseUnit);
-        period = workNumber(parseUnit);
+        delay = Process.parsing(parseUnit);
+        period = Process.parsing(parseUnit);
         body = Process.parsing(parseUnit);
     }
 
     @Override
     public void run(ProcessUnit processUnit) {
+        long delay, period;
+        this.delay.run(processUnit);
+        Object delayO = this.delay.get();
+        if (delayO instanceof Number) delay = ((Number) delayO).getNumber().longValue();
+        else return;
+        this.period.run(processUnit);
+        Object periodO = this.period.get();
+        if (periodO instanceof Number) period = ((Number) periodO).getNumber().longValue();
+        else return;
         int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(API.getPlugin(), () -> {
             VariableRegister register = new VariableRegister();
             register.add(API.getRegister().getScope());
