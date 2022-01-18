@@ -109,6 +109,27 @@ public interface EventListener {
         }
     }
 
+    @Processable(alias = "PlayerMove")
+    class PlayerMove extends AbstractPlayerCancellable<PlayerMoveEvent> {
+        @EventHandler
+        public void onEvent(PlayerMoveEvent event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(PlayerMoveEvent event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "to", new VLocation(event.getTo()));
+            register(scope, "from", new VLocation(event.getFrom()));
+        }
+        @Override
+        protected void map(PlayerMoveEvent event, Scope scope) {
+            super.map(event, scope);
+            VLocation to = scope.getRegistry("to", VLocation.class);
+            if (to != null) event.setTo(to.getObject());
+            VLocation from = scope.getRegistry("from", VLocation.class);
+            if (from != null) event.setFrom(from.getObject());
+        }
+    }
 
     abstract class AbstractPlayer<T extends org.bukkit.event.player.PlayerEvent> extends AbstractEventListener<T> {
         @Override
