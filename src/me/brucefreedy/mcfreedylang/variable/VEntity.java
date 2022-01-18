@@ -8,10 +8,8 @@ public class VEntity<T extends Entity> extends AbstractVar<T> {
     
     public VEntity(T object) {
         super(object);
-        register("location", method(o -> o instanceof VLocation, Location.class, location -> {
-            object.sendMessage("debugmessage");
-            object.teleport(location);
-        }, () -> new VLocation(object.getLocation())));
+        register("location", method(o -> o instanceof VLocation, Location.class,
+                object::teleport, () -> new VLocation(object.getLocation())));
         register("name", stringValue(object::setCustomName, object::getName));
     }
 
