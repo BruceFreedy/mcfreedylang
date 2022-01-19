@@ -1,7 +1,7 @@
 package me.brucefreedy.mcfreedylang.process;
 
-import me.brucefreedy.freedylang.lang.*;
 import me.brucefreedy.freedylang.lang.Process;
+import me.brucefreedy.freedylang.lang.*;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.abst.Stacker;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
@@ -30,10 +30,9 @@ public class DelayTask implements Process<Object>, Stacker<Object> {
         Object delayO = this.delay.get();
         if (delayO instanceof Number) delay = ((Number) delayO).getNumber().longValue();
         else return;
-        VariableRegister register = processUnit.getVariableRegister();
-        int id = Bukkit.getScheduler().runTaskLater(API.getPlugin(), () -> {
-            body.run(new ProcessUnit(register));
-        }, delay).getTaskId();
+        VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
+        int id = Bukkit.getScheduler().runTaskLater(API.getPlugin(),
+                () -> body.run(new ProcessUnit(register)), delay).getTaskId();
         result = new SimpleNumber(id);
     }
 

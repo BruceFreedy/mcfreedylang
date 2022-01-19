@@ -1,8 +1,7 @@
 package me.brucefreedy.mcfreedylang.process;
 
-import me.brucefreedy.freedylang.lang.*;
 import me.brucefreedy.freedylang.lang.Process;
-import me.brucefreedy.freedylang.lang.abst.EmptyImpl;
+import me.brucefreedy.freedylang.lang.*;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.abst.Stacker;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
@@ -37,10 +36,9 @@ public class RepeatTask implements Process<Object>, Stacker<Object> {
         Object periodO = this.period.get();
         if (periodO instanceof Number) period = ((Number) periodO).getNumber().longValue();
         else return;
-        VariableRegister register = processUnit.getVariableRegister();
-        int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(API.getPlugin(), () -> {
-            body.run(new ProcessUnit(register));
-        }, delay, period);
+        VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
+        int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(API.getPlugin(),
+                () -> body.run(new ProcessUnit(register)), delay, period);
         result = new SimpleNumber(id);
     }
 

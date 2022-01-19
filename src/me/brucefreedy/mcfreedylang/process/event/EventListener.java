@@ -3,8 +3,6 @@ package me.brucefreedy.mcfreedylang.process.event;
 import me.brucefreedy.freedylang.lang.Processable;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.bool.Bool;
-import me.brucefreedy.freedylang.lang.variable.bool.False;
-import me.brucefreedy.freedylang.lang.variable.bool.True;
 import me.brucefreedy.mcfreedylang.variable.*;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
