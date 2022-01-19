@@ -8,6 +8,7 @@ import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.registry.ProcessRegister;
 import me.brucefreedy.freedylang.registry.ProcessUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 
 import java.io.File;
@@ -33,6 +34,7 @@ public class Register {
         Arrays.stream(ProcessDefs.values()).forEach(pDefs -> processRegister.register(pDefs.getSupplier()));
         scope = new Scope();
         HandlerList.unregisterAll(API.getPlugin());
+        Bukkit.getScheduler().cancelTasks(API.getPlugin());
         File src = new File(API.getPlugin().getDataFolder(), "src");
         if (!src.exists()) {
             src.mkdirs();

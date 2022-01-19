@@ -22,7 +22,7 @@ public class Command implements CommandExecutor {
         String arg = String.join(" ", args);
         if (arg.equalsIgnoreCase("reload")) {
             API.getRegister().load();
-            System.out.println("Reloaded");
+            sender.sendMessage("Reloaded");
             return true;
         }
         Process<?> parsing = Process.parsing(new ParseUnit(API.getRegister().getProcessRegister(), "{" + arg + "}"));

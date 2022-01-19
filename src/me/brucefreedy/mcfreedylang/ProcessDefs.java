@@ -3,6 +3,8 @@ package me.brucefreedy.mcfreedylang;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.brucefreedy.freedylang.lang.Process;
+import me.brucefreedy.mcfreedylang.process.DelayTask;
+import me.brucefreedy.mcfreedylang.process.RepeatTask;
 import me.brucefreedy.mcfreedylang.process.event.EventListener;
 
 import java.util.function.Supplier;
@@ -12,6 +14,13 @@ import java.util.function.Supplier;
 public enum ProcessDefs {
     JOIN(EventListener.PlayerJoin::new),
     LEFT(EventListener.PlayerLeft::new),
+    INTERACT(EventListener.PlayerInteract::new),
+    CHAT(EventListener.PlayerChat::new),
+    COMMAND(EventListener.PlayerCommand::new),
+    MOVE(EventListener.PlayerMove::new),
+    DELAY(DelayTask::new),
+    REPEAT(RepeatTask::new),
+
     ;
-    private Supplier<Process<?>> supplier;
+    private final Supplier<Process<?>> supplier;
 }
