@@ -22,8 +22,8 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
     @Override
     public void parse(ParseUnit parseUnit) {
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
-        body = Process.parsing(parseUnit);
         parent = parseUnit.getProcessRegister().getVariableRegister().peek();
+        body = Process.parsing(parseUnit);
     }
 
     @Override
