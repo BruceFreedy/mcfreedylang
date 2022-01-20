@@ -20,12 +20,12 @@ public interface EventListener {
         @Override
         protected void wrap(PlayerJoinEvent event, Scope scope) {
             super.wrap(event, scope);
-            scope.register("joinMessage", event.getJoinMessage());
+            scope.register("message", event.getJoinMessage());
         }
         @Override
         protected void map(PlayerJoinEvent event, Scope scope) {
             super.map(event, scope);
-            event.setJoinMessage(scope.getRegistry("joinMessage").toString());
+            event.setJoinMessage(scope.getRegistry("message").toString());
         }
     }
 
@@ -38,12 +38,12 @@ public interface EventListener {
         @Override
         protected void wrap(PlayerQuitEvent event, Scope scope) {
             super.wrap(event, scope);
-            scope.register("leftMessage", event.getQuitMessage());
+            scope.register("message", event.getQuitMessage());
         }
         @Override
         protected void map(PlayerQuitEvent event, Scope scope) {
             super.map(event, scope);
-            event.setQuitMessage(scope.getRegistry("leftMessage").toString());
+            event.setQuitMessage(scope.getRegistry("message").toString());
         }
     }
 

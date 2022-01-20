@@ -22,8 +22,12 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
     @Override
     public void parse(ParseUnit parseUnit) {
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
-        parent = parseUnit.getProcessRegister().getVariableRegister().peek();
         body = Process.parsing(parseUnit);
+    }
+
+    @Override
+    public void run(ProcessUnit processUnit) {
+        parent = processUnit.getVariableRegister().peek();
     }
 
     @Override
@@ -43,8 +47,8 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         else wrap(event, scope);
         VariableRegister register = new VariableRegister();
         register.add(API.getRegister().getScope());
-        register.add(scope);
         if (parent != null) register.add(parent);
+        register.add(scope);
         body.run(new ProcessUnit(register));
         map(event, scope);
     }
