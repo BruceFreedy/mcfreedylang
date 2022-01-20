@@ -24,6 +24,10 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
         body = Process.parsing(parseUnit);
         parseUnit.getDeclaration().peek().add(this);
+        parseUnit.popPeek(stealer -> {
+            stealer.setProcess(body);
+            body = stealer;
+        });
     }
 
     @Override
