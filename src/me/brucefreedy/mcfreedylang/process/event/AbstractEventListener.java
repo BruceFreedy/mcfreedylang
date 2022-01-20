@@ -26,7 +26,7 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         body = Process.parsing(parseUnit);
         List<Process<?>> peek = parseUnit.getDeclaration().peek();
         if (peek != null) peek.add(this);
-        parseUnit.popPeek(stealer -> {
+        if (body instanceof AbstractFront) parseUnit.popPeek(stealer -> {
             stealer.setProcess(body);
             body = stealer;
         });
