@@ -27,8 +27,10 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+ext.module = () -> dependencies.implementation(rootProject.fileTree(dir: 'libs', include: ['*.jar']))
+
 dependencies {
-    implementation rootProject.fileTree(dir: 'libs', include: ['*.jar'])
+    module
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -40,6 +42,7 @@ dependencies {
 //    compileOnly 'org.spigotmc:spigot:1.18-R0.1-SNAPSHOT'
 
 }
+
 
 shadowJar {
     shadowJar.archiveName = 'mcfreedylang.jar'
