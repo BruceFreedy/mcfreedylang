@@ -43,8 +43,8 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         else wrap(event, scope);
         VariableRegister register = new VariableRegister();
         register.add(API.getRegister().getScope());
-        if (parent != null) register.add(parent);
         register.add(scope);
+        if (parent != null) register.add(parent);
         body.run(new ProcessUnit(register));
         map(event, scope);
     }
