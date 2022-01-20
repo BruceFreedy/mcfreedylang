@@ -17,12 +17,13 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         implements Listener {
 
     Process<?> body;
+    Scope parent;
 
     @Override
     public void parse(ParseUnit parseUnit) {
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
         body = Process.parsing(parseUnit);
-
+        parent = parseUnit.getProcessRegister().getVariableRegister().peek();
     }
 
     @Override
