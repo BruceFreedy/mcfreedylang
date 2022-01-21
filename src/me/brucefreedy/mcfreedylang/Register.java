@@ -11,9 +11,12 @@ import me.brucefreedy.freedylang.registry.ProcessUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 public class Register {
@@ -44,11 +47,24 @@ public class Register {
         File[] files = src.listFiles(File::isFile);
         if (files == null) throw new IOException();
         Arrays.stream(files).forEach(file -> {
-            Process<?> process = ProcessUtils.parsing(processRegister, file.toPath());
+            Process<?> process = parsing(processRegister, file.toPath());
             ((AbstractFront) process).setScopeSupplier(() -> scope);
             process.run(new ProcessUnit(processRegister.getVariableRegister()));
         });
     }
 
+    public static Process<?> parsing(ProcessRegister processRegister, Path path) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String source = ColorEdit.toColor(stringBuilder.toString());
+        return ProcessUtils.parsing(processRegister, ProcessUtils.withoutExtension(path.toFile().getName()), source);
+    }
 
 }

@@ -19,7 +19,7 @@ public class Command implements CommandExecutor {
             org.bukkit.command.Command command,
             String label,
             String[] args) {
-        String arg = String.join(" ", args);
+        String arg = ColorEdit.toColor(String.join(" ", args));
         if (arg.equalsIgnoreCase("reload")) {
             API.getRegister().load();
             sender.sendMessage("Reloaded");
