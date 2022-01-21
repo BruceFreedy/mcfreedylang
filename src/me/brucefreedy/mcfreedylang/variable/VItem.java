@@ -28,7 +28,13 @@ public class VItem extends AbstractVar<ItemStack> {
             java.util.List<String> lore = getOrNewItemMeta().getLore();
             if (lore == null) lore = new ArrayList<>();
             List<String> loreList = new List<>(lore);
-            return new ListProcess(new List<>(loreList.stream().map(SimpleText::new).collect(Collectors.toList())));
+            ListProcess listProcess = new ListProcess(new List<>(loreList.stream().map(SimpleText::new).collect(Collectors.toList())));
+            listProcess.setSync(processes -> {
+                ItemMeta itemMeta = getOrNewItemMeta();
+                itemMeta.setLore(processes.stream().map(Object::toString).collect(Collectors.toList()));
+                object.setItemMeta(itemMeta);
+            });
+            return listProcess;
         }));
     }
 
