@@ -24,6 +24,9 @@ public enum ProcessDefs {
     REPEAT(RepeatTask::new),
     CANCEL_TASK(CancelTask::new),
     ASYNC(Async::new),
+    INVENTORY_CLICK(EventListener.InventoryClick::new),
+    INVENTORY_DRAG(EventListener.InventoryDrag::new),
+    INVENTORY_CLOSE(EventListener.InventoryClose::new),
     ;
     private final Supplier<Process<?>> supplier;
 }
