@@ -136,7 +136,7 @@ public interface EventListener {
 
     @Processable(alias = "@inventoryclick")
     class InventoryClick extends AbstractInventoryInteract<InventoryClickEvent> {
-        @Override
+        @EventHandler
         public void onEvent(InventoryClickEvent event) {
             super.onEvent(event);
         }
@@ -155,7 +155,7 @@ public interface EventListener {
 
     @Processable(alias = "@inventorydrag")
     class InventoryDrag extends AbstractInventoryInteract<InventoryDragEvent> {
-        @Override
+        @EventHandler
         public void onEvent(InventoryDragEvent event) {
             super.onEvent(event);
         }
@@ -171,7 +171,7 @@ public interface EventListener {
 
     @Processable(alias = "@inventoryclose")
     class InventoryClose extends AbstractEventListener<InventoryCloseEvent> {
-        @Override
+        @EventHandler
         public void onEvent(InventoryCloseEvent event) {
             super.onEvent(event);
         }
