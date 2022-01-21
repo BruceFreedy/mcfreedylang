@@ -3,11 +3,16 @@ package me.brucefreedy.mcfreedylang.process.event;
 import me.brucefreedy.freedylang.lang.Processable;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.bool.Bool;
+import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
 import me.brucefreedy.mcfreedylang.variable.*;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.InventoryView;
 
 public interface EventListener {
 
@@ -126,6 +131,63 @@ public interface EventListener {
             if (to != null) event.setTo(to.getObject());
             VLocation from = scope.getRegistry("from", VLocation.class);
             if (from != null) event.setFrom(from.getObject());
+        }
+    }
+
+    @Processable(alias = "@inventoryclick")
+    class InventoryClick extends AbstractInventoryInteract<InventoryClickEvent> {
+        @Override
+        public void onEvent(InventoryClickEvent event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(InventoryClickEvent event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "action", new VInventoryAction(event.getAction()));
+            register(scope, "click", new VClickType(event.getClick()));
+            register(scope, "inventory", event.getClickedInventory());
+            register(scope, "currentItem", new VItem(event.getCurrentItem()));
+            register(scope, "cursor", new VItem(event.getCursor()));
+            register(scope, "slot", new SimpleNumber(event.getSlot()));
+            register(scope, "hotbar", new SimpleNumber(event.getHotbarButton()));
+        }
+    }
+
+    @Processable(alias = "@inventorydrag")
+    class InventoryDrag extends AbstractInventoryInteract<InventoryDragEvent> {
+        @Override
+        public void onEvent(InventoryDragEvent event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(InventoryDragEvent event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "dragType", new VDragType(event.getType()));
+            register(scope, "oldCursor", new VItem(event.getOldCursor()));
+            register(scope, "cursor", new VItem(event.getCursor()));
+            register(scope, "inventory", new VInventory(event.getInventory()));
+        }
+    }
+
+    @Processable(alias = "@inventoryclose")
+    class InventoryClose extends AbstractEventListener<InventoryCloseEvent> {
+        @Override
+        public void onEvent(InventoryCloseEvent event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(InventoryCloseEvent event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "player", new VPlayer((Player) event.getPlayer()));
+            register(scope, "inventory", new VInventory(event.getInventory()));
+        }
+    }
+
+    abstract class AbstractInventoryInteract<T extends InventoryInteractEvent> extends AbstractEventCancellable<T> {
+        @Override
+        protected void wrap(T event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "player", new VPlayer((Player) event.getWhoClicked()));
         }
     }
 
