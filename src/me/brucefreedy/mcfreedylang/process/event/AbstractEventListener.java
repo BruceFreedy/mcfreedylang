@@ -1,6 +1,7 @@
 package me.brucefreedy.mcfreedylang.process.event;
 
 import me.brucefreedy.common.List;
+import me.brucefreedy.freedylang.lang.Breaker;
 import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
@@ -24,6 +25,7 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
     public void parse(ParseUnit parseUnit) {
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
         body = Process.parsing(parseUnit);
+        if (body instanceof Breaker) body = Process.parsing(parseUnit);
         List<Process<?>> peek = parseUnit.getDeclaration().peek();
         if (peek != null) peek.add(this);
         if (body instanceof AbstractFront) parseUnit.popPeek(stealer -> {
