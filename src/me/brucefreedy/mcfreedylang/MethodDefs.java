@@ -43,4 +43,9 @@ public enum MethodDefs {
     ;
     private final Method method;
 
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
+
 }
