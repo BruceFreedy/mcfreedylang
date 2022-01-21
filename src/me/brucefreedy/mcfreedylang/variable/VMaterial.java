@@ -3,15 +3,19 @@ package me.brucefreedy.mcfreedylang.variable;
 import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
+import me.brucefreedy.freedylang.lang.Processable;
 import me.brucefreedy.freedylang.lang.abst.Stacker;
 import me.brucefreedy.mcfreedylang.abst.AbstractEnumVar;
 import org.bukkit.Material;
 
+@Processable(alias = "material")
 public class VMaterial extends AbstractEnumVar<Material> implements Process<VMaterial>, Stacker<VMaterial> {
     public VMaterial(Material object) {
         super(object);
     }
-
+    public VMaterial() {
+        super(Material.AIR);
+    }
     Process<?> process;
 
     @Override

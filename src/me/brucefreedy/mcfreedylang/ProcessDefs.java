@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.mcfreedylang.process.*;
 import me.brucefreedy.mcfreedylang.process.event.EventListener;
+import me.brucefreedy.mcfreedylang.variable.VMaterial;
 
 import java.util.function.Supplier;
 
@@ -24,7 +25,7 @@ public enum ProcessDefs {
     INVENTORY_CLICK(EventListener.InventoryClick::new),
     INVENTORY_DRAG(EventListener.InventoryDrag::new),
     INVENTORY_CLOSE(EventListener.InventoryClose::new),
-    MATERIAL(MaterialRef::new),
+    MATERIAL(VMaterial::new),
     ;
     private final Supplier<Process<?>> supplier;
 }
