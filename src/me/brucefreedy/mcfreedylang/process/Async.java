@@ -19,6 +19,10 @@ public class Async extends ProcessImpl<Object> {
     @Override
     public void parse(ParseUnit parseUnit) {
         super.parse(parseUnit);
+        parseUnit.popPeek(stealer -> {
+            stealer.setProcess(process);
+            process = stealer;
+        });
     }
 
     @Override
