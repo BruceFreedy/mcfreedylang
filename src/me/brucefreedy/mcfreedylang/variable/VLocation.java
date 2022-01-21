@@ -17,9 +17,4 @@ public class VLocation extends AbstractVar<Location> {
         register("block", (Method) (unit, params) -> new VBlock(object.getBlock().getState()));
     }
 
-    @Override
-    public String toString() {
-        return object.toString();
-    }
-
 }
