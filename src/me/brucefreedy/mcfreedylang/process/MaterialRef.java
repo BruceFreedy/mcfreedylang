@@ -22,4 +22,9 @@ public class MaterialRef extends ProcessImpl<VMaterial> {
     public VMaterial get() {
         return new VMaterial(material);
     }
+
+    @Override
+    public String toString() {
+        return get().toString();
+    }
 }
