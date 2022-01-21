@@ -36,6 +36,7 @@ public class Register {
         processRegister.register();
         Arrays.stream(ProcessDefs.values()).forEach(pDefs -> processRegister.register(pDefs.getSupplier()));
         scope = new Scope();
+        Arrays.stream(MethodDefs.values()).forEach(m -> scope.register(m.name().toLowerCase(), m.getMethod()));
         HandlerList.unregisterAll(API.getPlugin());
         Bukkit.getScheduler().cancelTasks(API.getPlugin());
         File src = new File(API.getPlugin().getDataFolder(), "src");
