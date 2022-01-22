@@ -1,5 +1,6 @@
 package me.brucefreedy.mcfreedylang.variable;
 
+import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.variable.AbstractVar;
 import org.bukkit.Location;
 
@@ -13,7 +14,7 @@ public class VLocation extends AbstractVar<Location> {
         register("yaw", floatValue(object::setYaw, object::getYaw));
         register("pitch", floatValue(object::setPitch, object::getPitch));
         register("world", new VWorld(object.getWorld()));
-
+        register("block", (Method) (unit, params) -> new VBlock(object.getBlock().getState()));
     }
 
 }

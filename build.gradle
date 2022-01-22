@@ -27,9 +27,9 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+ext.libs = ext.libs == null ? null : dependencies.implementation(project.fileTree(dir: 'libs', include: ['*.jar']))
 dependencies {
-    implementation rootProject.fileTree(dir: 'libs', include: ['*.jar'])
-
+    libs
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
@@ -41,6 +41,8 @@ dependencies {
 
 }
 
+
 shadowJar {
     shadowJar.archiveName = 'mcfreedylang.jar'
 }
+

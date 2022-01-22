@@ -3,10 +3,12 @@ package me.brucefreedy.mcfreedylang.variable;
 import lombok.Getter;
 import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
+import me.brucefreedy.freedylang.lang.variable.bool.Bool;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 @Getter
@@ -35,5 +37,9 @@ public class VPlayer extends VLivingEntity<Player> {
                     .sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(params.first().toString()));
             return new Null();
         });
+        register("inventory", (Method) (unit, params) -> new VInventory(object.getInventory()));
+        register("gamemode", method(o -> o instanceof VGameMode, GameMode.class, object::setGameMode, object::getGameMode));
+        register("execute", stringValue(s -> Bool.get(object.performCommand(s)), () -> new Null().toString()));
+        register("sneaking", boolValue(object::setSneaking, object::isSneaking));
     }
 }

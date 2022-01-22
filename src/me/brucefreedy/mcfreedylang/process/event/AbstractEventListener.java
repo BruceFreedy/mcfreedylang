@@ -1,5 +1,7 @@
 package me.brucefreedy.mcfreedylang.process.event;
 
+import me.brucefreedy.common.List;
+import me.brucefreedy.freedylang.lang.Breaker;
 import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
@@ -17,12 +19,24 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         implements Listener {
 
     Process<?> body;
+    Scope parent;
 
     @Override
     public void parse(ParseUnit parseUnit) {
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
         body = Process.parsing(parseUnit);
+        if (body instanceof Breaker) body = Process.parsing(parseUnit);
+        List<Process<?>> peek = parseUnit.getDeclaration().peek();
+        if (peek != null) peek.add(this);
+        if (body instanceof AbstractFront) parseUnit.popPeek(stealer -> {
+            stealer.setProcess(body);
+            body = stealer;
+        });
+    }
 
+    @Override
+    public void run(ProcessUnit processUnit) {
+        parent = processUnit.getVariableRegister().peek();
     }
 
     @Override
@@ -42,6 +56,7 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         else wrap(event, scope);
         VariableRegister register = new VariableRegister();
         register.add(API.getRegister().getScope());
+        if (parent != null) register.add(parent);
         register.add(scope);
         body.run(new ProcessUnit(register));
         map(event, scope);
