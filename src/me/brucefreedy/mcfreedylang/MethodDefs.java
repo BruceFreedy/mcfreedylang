@@ -52,9 +52,9 @@ public enum MethodDefs {
     }),
     VECTOR((unit, params) -> {
         try {
-            double x = ((Number) params.get(1)).getNumber().doubleValue();
-            double y = ((Number) params.get(2)).getNumber().doubleValue();
-            double z = ((Number) params.get(3)).getNumber().doubleValue();
+            double x = ((Number) params.get(0)).getNumber().doubleValue();
+            double y = ((Number) params.get(1)).getNumber().doubleValue();
+            double z = ((Number) params.get(2)).getNumber().doubleValue();
             return new VVector(new Vector(x, y, z));
         } catch (Exception ignored) {
             return new Null();
