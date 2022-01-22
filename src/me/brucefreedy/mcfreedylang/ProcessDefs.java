@@ -25,7 +25,6 @@ public enum ProcessDefs {
     INVENTORY_CLICK(EventListener.InventoryClick::new),
     INVENTORY_DRAG(EventListener.InventoryDrag::new),
     INVENTORY_CLOSE(EventListener.InventoryClose::new),
-    MATERIAL(VMaterial::new),
     ;
     private final Supplier<Process<?>> supplier;
 }
