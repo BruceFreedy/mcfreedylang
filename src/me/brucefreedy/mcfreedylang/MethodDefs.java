@@ -1,5 +1,6 @@
 package me.brucefreedy.mcfreedylang;
 
+import com.eatthepath.uuid.FastUUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.brucefreedy.freedylang.lang.abst.Method;
@@ -17,12 +18,12 @@ import org.bukkit.World;
 public enum MethodDefs {
     MATERIAL((unit, params) -> {
         Object first = params.first();
-        if (first == null) return new VMaterial();
+        if (first == null) return new VMaterial(Material.AIR);
         else {
             try {
                 return new VMaterial(Material.valueOf(first.toString()));
             } catch (Exception ignored) {
-                return new VMaterial();
+                return new VMaterial(Material.AIR);
             }
         }
     }),
@@ -36,6 +37,13 @@ public enum MethodDefs {
             float yaw = params.size() == 4 ? 0 : ((Number) params.get(4)).getNumber().floatValue();
             float pitch = params.size() == 4 ? 0 : ((Number) params.get(5)).getNumber().floatValue();
             return new VLocation(new Location(world, x, y, z, yaw, pitch));
+        } catch (Exception ignored) {
+            return new Null();
+        }
+    }),
+    UUID((unit, params) -> {
+        try {
+            return FastUUID.parseUUID(params.first().toString());
         } catch (Exception ignored) {
             return new Null();
         }
