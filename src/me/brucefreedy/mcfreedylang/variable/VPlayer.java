@@ -15,9 +15,9 @@ import org.bukkit.entity.Player;
 public class VPlayer extends VLivingEntity<Player> {
     public VPlayer(Player player) {
         super(player);
-        register("displayname", (Method) (processUnit, params) -> player.getDisplayName());
+        register("displayname", (Method) (processUnit, params) -> object.getDisplayName());
         register("print", (Method) (processUnit, params) -> {
-            params.stream().map(Object::toString).forEach(player::sendMessage);
+            params.stream().map(Object::toString).forEach(object::sendMessage);
             return this;
         });
         register("food", intValue(object::setFoodLevel, object::getFoodLevel));
@@ -33,7 +33,7 @@ public class VPlayer extends VLivingEntity<Player> {
             return new Null();
         });
         register("actionbar", (Method) (processUnit, params) -> {
-            if (!params.isEmpty()) player.spigot()
+            if (!params.isEmpty()) object.spigot()
                     .sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(params.first().toString()));
             return new Null();
         });
@@ -41,5 +41,8 @@ public class VPlayer extends VLivingEntity<Player> {
         register("gamemode", method(o -> o instanceof VGameMode, GameMode.class, object::setGameMode, object::getGameMode));
         register("execute", stringValue(s -> Bool.get(object.performCommand(s)), () -> new Null().toString()));
         register("sneaking", boolValue(object::setSneaking, object::isSneaking));
+        register("updateInventory", voidFunc(params -> object.updateInventory()));
+        register("closeInventory", voidFunc(params -> object.closeInventory()));
+        register("permission", voidFunc(params -> Bool.get(object.hasPermission(params.first().toString()))));
     }
 }

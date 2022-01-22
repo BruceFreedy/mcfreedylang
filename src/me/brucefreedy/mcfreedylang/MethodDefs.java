@@ -6,18 +6,45 @@ import lombok.Getter;
 import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
+import me.brucefreedy.mcfreedylang.variable.VInventory;
 import me.brucefreedy.mcfreedylang.variable.VLocation;
 import me.brucefreedy.mcfreedylang.variable.VVector;
 import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
+import net.jafama.FastMath;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.util.Vector;
 
 @Getter
 @AllArgsConstructor
 public enum MethodDefs {
+    INVENTORY((unit, params) -> {
+        if (params.size() == 1) {
+            try {
+                int size = ((Number) params.get(0)).getNumber().intValue();
+                return new VInventory(Bukkit.createInventory(null, size));
+            } catch (Exception ignored) {}
+            try {
+                return new VInventory(Bukkit.createInventory(null,
+                        InventoryType.valueOf(params.get(0).toString())));
+            } catch (Exception ignored) {}
+        } else if (params.size() == 2) {
+            try {
+                int size = ((Number) params.get(0)).getNumber().intValue();
+                String title = params.get(1).toString();
+                return new VInventory(Bukkit.createInventory(null, size, title));
+            } catch (Exception ignored) {}
+            try {
+                String title = params.get(1).toString();
+                InventoryType type = InventoryType.valueOf(params.get(0).toString());
+                return new VInventory(Bukkit.createInventory(null, type, title));
+            } catch (Exception ignored) {}
+        }
+        return new Null();
+    }),
     MATERIAL((unit, params) -> {
         Object first = params.first();
         if (first == null) return new VMaterial(Material.AIR);
@@ -56,6 +83,15 @@ public enum MethodDefs {
             double y = ((Number) params.get(1)).getNumber().doubleValue();
             double z = ((Number) params.get(2)).getNumber().doubleValue();
             return new VVector(new Vector(x, y, z));
+        } catch (Exception ignored) {
+            return new Null();
+        }
+    }),
+    RANDOM((unit, params) -> {
+        try {
+            double min = ((Number) params.get(0)).getNumber().doubleValue();
+            double max = ((Number) params.get(1)).getNumber().doubleValue();
+            return FastMath.random() * (max - min - 1) + min;
         } catch (Exception ignored) {
             return new Null();
         }
