@@ -7,7 +7,7 @@ import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.mcfreedylang.variable.VLocation;
-import me.brucefreedy.mcfreedylang.variable.VMaterial;
+import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -5,14 +5,13 @@ import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.bool.Bool;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
 import me.brucefreedy.mcfreedylang.variable.*;
-import org.bukkit.entity.HumanEntity;
+import me.brucefreedy.mcfreedylang.variable.enumvar.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.InventoryView;
 
 public interface EventListener {
 

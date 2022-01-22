@@ -5,7 +5,6 @@ import lombok.Getter;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.mcfreedylang.process.*;
 import me.brucefreedy.mcfreedylang.process.event.EventListener;
-import me.brucefreedy.mcfreedylang.variable.VMaterial;
 
 import java.util.function.Supplier;
 
