@@ -7,11 +7,13 @@ import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.mcfreedylang.variable.VLocation;
+import me.brucefreedy.mcfreedylang.variable.VVector;
 import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.util.Vector;
 
 @Getter
 @AllArgsConstructor
@@ -44,6 +46,16 @@ public enum MethodDefs {
     UUID((unit, params) -> {
         try {
             return FastUUID.parseUUID(params.first().toString());
+        } catch (Exception ignored) {
+            return new Null();
+        }
+    }),
+    VECTOR((unit, params) -> {
+        try {
+            double x = ((Number) params.get(1)).getNumber().doubleValue();
+            double y = ((Number) params.get(2)).getNumber().doubleValue();
+            double z = ((Number) params.get(3)).getNumber().doubleValue();
+            return new VVector(new Vector(x, y, z));
         } catch (Exception ignored) {
             return new Null();
         }
