@@ -1,4 +1,4 @@
-package me.brucefreedy.mcfreedylang.abst;
+package me.brucefreedy.mcfreedylang.variable.enumvar;
 
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.AbstractVar;

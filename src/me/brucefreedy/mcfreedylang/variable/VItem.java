@@ -4,6 +4,7 @@ import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.abst.ListProcess;
 import me.brucefreedy.freedylang.lang.variable.AbstractVar;
 import me.brucefreedy.freedylang.lang.variable.text.SimpleText;
+import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

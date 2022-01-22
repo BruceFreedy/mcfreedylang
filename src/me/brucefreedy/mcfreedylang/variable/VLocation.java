@@ -13,8 +13,9 @@ public class VLocation extends AbstractVar<Location> {
         register("z", doubleValue(object::setZ, object::getZ));
         register("yaw", floatValue(object::setYaw, object::getYaw));
         register("pitch", floatValue(object::setPitch, object::getPitch));
-        register("world", new VWorld(object.getWorld()));
+        register("world", (Method) (unit, params) -> new VWorld(object.getWorld()));
         register("block", (Method) (unit, params) -> new VBlock(object.getBlock().getState()));
+        register("direction", (Method) (unit, params) ->  new VVector(object.getDirection()));
     }
 
 }

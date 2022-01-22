@@ -1,6 +1,5 @@
-package me.brucefreedy.mcfreedylang.variable;
+package me.brucefreedy.mcfreedylang.variable.enumvar;
 
-import me.brucefreedy.mcfreedylang.abst.AbstractEnumVar;
 import org.bukkit.Material;
 
 public class VMaterial extends AbstractEnumVar<Material> {
