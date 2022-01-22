@@ -32,11 +32,8 @@ public class VPlayer extends VLivingEntity<Player> {
             } catch (Exception ignored) {}
             return new Null();
         });
-        register("actionbar", (Method) (processUnit, params) -> {
-            if (!params.isEmpty()) object.spigot()
-                    .sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(params.first().toString()));
-            return new Null();
-        });
+        register("actionbar", voidFunc(params ->
+                object.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(params.first().toString()))));
         register("inventory", (Method) (unit, params) -> new VInventory(object.getInventory()));
         register("gamemode", method(o -> o instanceof VGameMode, GameMode.class, object::setGameMode, object::getGameMode));
         register("execute", stringValue(s -> Bool.get(object.performCommand(s)), () -> new Null().toString()));
@@ -45,4 +42,5 @@ public class VPlayer extends VLivingEntity<Player> {
         register("closeInventory", voidFunc(params -> object.closeInventory()));
         register("permission", voidFunc(params -> Bool.get(object.hasPermission(params.first().toString()))));
     }
+
 }
