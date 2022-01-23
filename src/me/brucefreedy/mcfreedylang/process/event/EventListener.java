@@ -66,11 +66,11 @@ public interface EventListener {
         protected void wrap(PlayerInteractEvent event, Scope scope) {
             super.wrap(event, scope);
             scope.register("action", new VBlockAction(event.getAction()));
-            register(scope, "hand", new VEquipmentSlot(event.getHand()));
+            register(scope, "hand", event.getHand() == null ? new Null() : new VEquipmentSlot(event.getHand()));
             register(scope, "blockFace", new VBlockFace(event.getBlockFace()));
             register(scope, "clickedBlock", event.getClickedBlock() == null ? null :
                     new VBlock(event.getClickedBlock().getState()));
-            register(scope, "item", new VItem(event.getItem()));
+            register(scope, "item", event.getItem() == null ? new Null() : new VItem(event.getItem()));
             register(scope, "material", new VMaterial(event.getMaterial()));
         }
         @Override
