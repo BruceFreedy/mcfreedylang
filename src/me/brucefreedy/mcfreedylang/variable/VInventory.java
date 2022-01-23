@@ -2,13 +2,13 @@ package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
-import me.brucefreedy.freedylang.lang.variable.AbstractVar;
+import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
-import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
+import me.brucefreedy.freedylang.lang.variable.number.AbstractNumber;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-public class VInventory extends AbstractVar<Inventory> {
+public class VInventory extends SimpleVar<Inventory> {
     public VInventory(Inventory object) {
         super(object);
         register("getItem", (Method) (unit, params) -> {
@@ -30,7 +30,7 @@ public class VInventory extends AbstractVar<Inventory> {
             object.setItem(((Number) index).getNumber().intValue(), ((VItem) item).getObject());
             return new Null();
         });
-        register("size", (Method) (unit, params) -> new SimpleNumber(object.getSize()));
+        register("size", (Method) (unit, params) -> new AbstractNumber(object.getSize()));
         register("open", method(o -> o instanceof VPlayer, Player.class, player -> player.openInventory(object), Null::new));
 
 

@@ -1,11 +1,11 @@
 package me.brucefreedy.mcfreedylang.variable;
 
 import com.eatthepath.uuid.FastUUID;
-import me.brucefreedy.freedylang.lang.variable.AbstractVar;
+import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 
 import java.util.UUID;
 
-public class VUUID extends AbstractVar<UUID> {
+public class VUUID extends SimpleVar<UUID> {
     public VUUID(UUID object) {
         super(object);
     }

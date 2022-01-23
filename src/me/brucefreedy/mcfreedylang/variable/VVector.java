@@ -1,10 +1,10 @@
 package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.freedylang.lang.abst.Null;
-import me.brucefreedy.freedylang.lang.variable.AbstractVar;
+import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import org.bukkit.util.Vector;
 
-public class VVector extends AbstractVar<Vector> {
+public class VVector extends SimpleVar<Vector> {
     public VVector(Vector object) {
         super(object);
         register("x", doubleValue(object::setX, object::getX));

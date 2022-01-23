@@ -6,7 +6,7 @@ import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.abst.Stacker;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
-import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
+import me.brucefreedy.freedylang.lang.variable.number.AbstractNumber;
 import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.Bukkit;
 
@@ -39,7 +39,7 @@ public class RepeatTask implements Process<Object>, Stacker<Object> {
         VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
         int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(API.getPlugin(),
                 () -> body.run(new ProcessUnit(register)), delay, period);
-        result = new SimpleNumber(id);
+        result = new AbstractNumber(id);
     }
 
     @Override

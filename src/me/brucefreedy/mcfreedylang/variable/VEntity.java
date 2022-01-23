@@ -1,12 +1,12 @@
 package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.freedylang.lang.abst.Method;
-import me.brucefreedy.freedylang.lang.variable.AbstractVar;
+import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
-public class VEntity<T extends Entity> extends AbstractVar<T> {
+public class VEntity<T extends Entity> extends SimpleVar<T> {
     
     public VEntity(T object) {
         super(object);

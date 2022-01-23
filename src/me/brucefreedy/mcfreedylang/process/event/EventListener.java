@@ -3,9 +3,9 @@ package me.brucefreedy.mcfreedylang.process.event;
 import me.brucefreedy.freedylang.lang.Processable;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.scope.Scope;
-import me.brucefreedy.freedylang.lang.variable.AbstractVar;
+import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import me.brucefreedy.freedylang.lang.variable.bool.Bool;
-import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
+import me.brucefreedy.freedylang.lang.variable.number.AbstractNumber;
 import me.brucefreedy.mcfreedylang.variable.*;
 import me.brucefreedy.mcfreedylang.variable.enumvar.*;
 import org.bukkit.entity.Entity;
@@ -152,8 +152,8 @@ public interface EventListener {
             register(scope, "inventory", event.getClickedInventory());
             register(scope, "currentItem", new VItem(event.getCurrentItem()));
             register(scope, "cursor", new VItem(event.getCursor()));
-            register(scope, "slot", new SimpleNumber(event.getSlot()));
-            register(scope, "hotbar", new SimpleNumber(event.getHotbarButton()));
+            register(scope, "slot", new AbstractNumber(event.getSlot()));
+            register(scope, "hotbar", new AbstractNumber(event.getHotbarButton()));
         }
     }
 
@@ -275,12 +275,26 @@ public interface EventListener {
         }
     }
 
+    @Processable(alias = "entitydeath")
+    class EntityDeathEvent<T extends org.bukkit.event.entity.EntityDeathEvent> extends AbstractEntity<T> {
+        @EventHandler
+        public void onEvent(T event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(T event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "droppedExp", new AbstractNumber(event.getDroppedExp()));
+            /// STOPSHIP: 2022-01-24
+        }
+    }
+
     abstract class AbstractDamage<T extends EntityDamageEvent> extends AbstractEntityCancellable<T> {
         @Override
         protected void wrap(T event, Scope scope) {
             super.wrap(event, scope);
-            register(scope, "damage", new SimpleNumber(event.getDamage()));
-            register(scope, "finalDamage", new SimpleNumber(event.getFinalDamage()));
+            register(scope, "damage", new AbstractNumber(event.getDamage()));
+            register(scope, "finalDamage", new AbstractNumber(event.getFinalDamage()));
             register(scope, "cause", new VDamageCause(event.getCause()));
         }
         @Override
@@ -288,6 +302,14 @@ public interface EventListener {
             super.map(event, scope);
             Number damage = scope.getRegistry("damage", Number.class);
             if (damage != null) event.setDamage(damage.doubleValue());
+        }
+    }
+
+    abstract class AbstractEntity<T extends EntityEvent> extends AbstractEventListener<T> {
+        @Override
+        protected void wrap(T event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "entity", getEntityVar(event.getEntity()));
         }
     }
 
@@ -341,7 +363,7 @@ public interface EventListener {
         }
     }
 
-    static AbstractVar<? extends Entity> getEntityVar(Entity entity) {
+    static SimpleVar<? extends Entity> getEntityVar(Entity entity) {
         if (entity instanceof Player) return new VPlayer(((Player) entity));
         if (entity instanceof LivingEntity) return new VLivingEntity<>(((LivingEntity) entity));
         else return new VEntity<>(entity);

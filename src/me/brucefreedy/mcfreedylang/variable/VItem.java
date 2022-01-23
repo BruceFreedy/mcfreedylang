@@ -2,8 +2,8 @@ package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.abst.ListProcess;
-import me.brucefreedy.freedylang.lang.variable.AbstractVar;
-import me.brucefreedy.freedylang.lang.variable.text.SimpleText;
+import me.brucefreedy.freedylang.lang.variable.SimpleVar;
+import me.brucefreedy.freedylang.lang.variable.text.AbstractText;
 import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class VItem extends AbstractVar<ItemStack> {
+public class VItem extends SimpleVar<ItemStack> {
     public VItem(ItemStack object) {
         super(object);
         register("type", method(o -> o instanceof VMaterial, Material.class, object::setType, object::getType));
@@ -29,7 +29,7 @@ public class VItem extends AbstractVar<ItemStack> {
             java.util.List<String> lore = getOrNewItemMeta().getLore();
             if (lore == null) lore = new ArrayList<>();
             List<String> loreList = new List<>(lore);
-            ListProcess listProcess = new ListProcess(new List<>(loreList.stream().map(SimpleText::new).collect(Collectors.toList())));
+            ListProcess listProcess = new ListProcess(new List<>(loreList.stream().map(AbstractText::new).collect(Collectors.toList())));
             listProcess.setSync(processes -> {
                 ItemMeta itemMeta = getOrNewItemMeta();
                 itemMeta.setLore(processes.stream().map(Object::toString).collect(Collectors.toList()));
