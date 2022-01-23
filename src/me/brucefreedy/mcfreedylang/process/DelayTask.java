@@ -6,7 +6,7 @@ import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.abst.Stacker;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
-import me.brucefreedy.freedylang.lang.variable.number.AbstractNumber;
+import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
 import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.Bukkit;
 
@@ -33,7 +33,7 @@ public class DelayTask implements Process<Object>, Stacker<Object> {
         VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
         int id = Bukkit.getScheduler().runTaskLater(API.getPlugin(),
                 () -> body.run(new ProcessUnit(register)), delay).getTaskId();
-        result = new AbstractNumber(id);
+        result = new SimpleNumber(id);
     }
 
     @Override

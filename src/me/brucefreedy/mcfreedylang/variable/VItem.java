@@ -3,7 +3,7 @@ package me.brucefreedy.mcfreedylang.variable;
 import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.abst.ListProcess;
 import me.brucefreedy.freedylang.lang.variable.SimpleVar;
-import me.brucefreedy.freedylang.lang.variable.text.AbstractText;
+import me.brucefreedy.freedylang.lang.variable.text.SimpleText;
 import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -29,7 +29,7 @@ public class VItem extends SimpleVar<ItemStack> {
             java.util.List<String> lore = getOrNewItemMeta().getLore();
             if (lore == null) lore = new ArrayList<>();
             List<String> loreList = new List<>(lore);
-            ListProcess listProcess = new ListProcess(new List<>(loreList.stream().map(AbstractText::new).collect(Collectors.toList())));
+            ListProcess listProcess = new ListProcess(new List<>(loreList.stream().map(SimpleText::new).collect(Collectors.toList())));
             listProcess.setSync(processes -> {
                 ItemMeta itemMeta = getOrNewItemMeta();
                 itemMeta.setLore(processes.stream().map(Object::toString).collect(Collectors.toList()));

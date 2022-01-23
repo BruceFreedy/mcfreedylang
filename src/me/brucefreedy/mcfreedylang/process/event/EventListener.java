@@ -5,7 +5,7 @@ import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import me.brucefreedy.freedylang.lang.variable.bool.Bool;
-import me.brucefreedy.freedylang.lang.variable.number.AbstractNumber;
+import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
 import me.brucefreedy.mcfreedylang.variable.*;
 import me.brucefreedy.mcfreedylang.variable.enumvar.*;
 import org.bukkit.entity.Entity;
@@ -152,8 +152,8 @@ public interface EventListener {
             register(scope, "inventory", event.getClickedInventory());
             register(scope, "currentItem", new VItem(event.getCurrentItem()));
             register(scope, "cursor", new VItem(event.getCursor()));
-            register(scope, "slot", new AbstractNumber(event.getSlot()));
-            register(scope, "hotbar", new AbstractNumber(event.getHotbarButton()));
+            register(scope, "slot", new SimpleNumber(event.getSlot()));
+            register(scope, "hotbar", new SimpleNumber(event.getHotbarButton()));
         }
     }
 
@@ -284,7 +284,7 @@ public interface EventListener {
         @Override
         protected void wrap(T event, Scope scope) {
             super.wrap(event, scope);
-            register(scope, "droppedExp", new AbstractNumber(event.getDroppedExp()));
+            register(scope, "droppedExp", new SimpleNumber(event.getDroppedExp()));
             /// STOPSHIP: 2022-01-24
         }
     }
@@ -293,8 +293,8 @@ public interface EventListener {
         @Override
         protected void wrap(T event, Scope scope) {
             super.wrap(event, scope);
-            register(scope, "damage", new AbstractNumber(event.getDamage()));
-            register(scope, "finalDamage", new AbstractNumber(event.getFinalDamage()));
+            register(scope, "damage", new SimpleNumber(event.getDamage()));
+            register(scope, "finalDamage", new SimpleNumber(event.getFinalDamage()));
             register(scope, "cause", new VDamageCause(event.getCause()));
         }
         @Override
