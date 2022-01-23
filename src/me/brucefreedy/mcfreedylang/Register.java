@@ -38,7 +38,7 @@ public class Register {
         Arrays.stream(ProcessDefs.values()).forEach(pDefs -> processRegister.register(pDefs.getSupplier()));
         scope = new Scope();
         {
-            RegisterProcessEvent registerProcessEvent = new RegisterProcessEvent(processRegister);
+            RegisterProcessEvent registerProcessEvent = new RegisterProcessEvent(scope, processRegister);
             Bukkit.getPluginManager().callEvent(registerProcessEvent);
         }
         HandlerList.unregisterAll(API.getPlugin());

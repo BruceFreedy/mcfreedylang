@@ -3,6 +3,7 @@ package me.brucefreedy.mcfreedylang.event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.brucefreedy.freedylang.lang.Process;
+import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.registry.ProcessRegister;
 import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.event.Event;
@@ -22,6 +23,7 @@ public class RegisterProcessEvent extends Event {
         return HANDLERS;
     }
 
+    private final Scope scope;
     private final ProcessRegister processRegister;
 
     public void register(String name, Supplier<Process<?>> supplier) {
@@ -29,7 +31,7 @@ public class RegisterProcessEvent extends Event {
     }
 
     public void registerMethod(String name, Object object) {
-        API.getRegister().getScope().register(name, object);
+        scope.register(name, object);
     }
 
 }
