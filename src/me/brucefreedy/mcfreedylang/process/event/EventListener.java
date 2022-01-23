@@ -1,15 +1,20 @@
 package me.brucefreedy.mcfreedylang.process.event;
 
 import me.brucefreedy.freedylang.lang.Processable;
+import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.scope.Scope;
+import me.brucefreedy.freedylang.lang.variable.AbstractVar;
 import me.brucefreedy.freedylang.lang.variable.bool.Bool;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
 import me.brucefreedy.mcfreedylang.variable.*;
 import me.brucefreedy.mcfreedylang.variable.enumvar.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 
@@ -182,6 +187,118 @@ public interface EventListener {
         }
     }
 
+    @Processable(alias = "@damagebyentity")
+    class DamageByEntity extends AbstractDamage<EntityDamageByEntityEvent> {
+        @EventHandler
+        public void onEvent(EntityDamageByEntityEvent event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(EntityDamageByEntityEvent event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "damager", getEntityVar(event.getDamager()));
+        }
+    }
+
+    @Processable(alias = "@damagebyblock")
+    class DamageByBlock extends AbstractDamage<EntityDamageByBlockEvent> {
+        @EventHandler
+        public void onEvent(EntityDamageByBlockEvent event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(EntityDamageByBlockEvent event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "damager",
+                    event.getDamager() == null ? new Null() : new VBlock(event.getDamager().getState()));
+        }
+    }
+
+    @Processable(alias = "@damage")
+    class EntityDamage extends AbstractDamage<EntityDamageEvent> {
+        @EventHandler
+        public void onEvent(EntityDamageEvent event) {
+            super.onEvent(event);
+        }
+    }
+
+    @Processable(alias = "@projectilehit")
+    class ProjectileHit extends AbstractEntityCancellable<ProjectileHitEvent> {
+        @EventHandler
+        public void onEvent(ProjectileHitEvent event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(ProjectileHitEvent event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "hitBlock",
+                    event.getHitBlock() == null ? new Null() : new VBlock(event.getHitBlock().getState()));
+            register(scope, "hitEntity", getEntityVar(event.getHitEntity()));
+            register(scope, "blockFace", new VBlockFace(event.getHitBlockFace()));
+        }
+        @Override
+        protected void map(ProjectileHitEvent event, Scope scope) {
+            super.map(event, scope);
+        }
+    }
+
+    @Processable(alias = "projectilelaunch")
+    class ProjectileLaunch extends AbstractEntitySpawn<ProjectileLaunchEvent> {
+        @EventHandler
+        public void onEvent(ProjectileLaunchEvent event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(ProjectileLaunchEvent event, Scope scope) {
+            super.wrap(event, scope);
+        }
+        @Override
+        protected void map(ProjectileLaunchEvent event, Scope scope) {
+            super.map(event, scope);
+        }
+    }
+
+    @Processable(alias = "entityspawn")
+    class AbstractEntitySpawn<T extends EntitySpawnEvent> extends AbstractEntityCancellable<T> {
+        @EventHandler
+        public void onEvent(T event) {
+            super.onEvent(event);
+        }
+        @Override
+        protected void wrap(T event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "location", new VLocation(event.getLocation()));
+        }
+        @Override
+        protected void map(T event, Scope scope) {
+            super.map(event, scope);
+        }
+    }
+
+    abstract class AbstractDamage<T extends EntityDamageEvent> extends AbstractEntityCancellable<T> {
+        @Override
+        protected void wrap(T event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "damage", new SimpleNumber(event.getDamage()));
+            register(scope, "finalDamage", new SimpleNumber(event.getFinalDamage()));
+            register(scope, "cause", new VDamageCause(event.getCause()));
+        }
+        @Override
+        protected void map(T event, Scope scope) {
+            super.map(event, scope);
+            Number damage = scope.getRegistry("damage", Number.class);
+            if (damage != null) event.setDamage(damage.doubleValue());
+        }
+    }
+
+    abstract class AbstractEntityCancellable<T extends EntityEvent & Cancellable> extends AbstractEventCancellable<T> {
+        @Override
+        protected void wrap(T event, Scope scope) {
+            super.wrap(event, scope);
+            register(scope, "entity", getEntityVar(event.getEntity()));
+        }
+    }
+
     abstract class AbstractInventoryInteract<T extends InventoryInteractEvent> extends AbstractEventCancellable<T> {
         @Override
         protected void wrap(T event, Scope scope) {
@@ -222,6 +339,12 @@ public interface EventListener {
                 else if (s.equals("false")) event.setCancelled(false);
             }
         }
+    }
+
+    static AbstractVar<? extends Entity> getEntityVar(Entity entity) {
+        if (entity instanceof Player) return new VPlayer(((Player) entity));
+        if (entity instanceof LivingEntity) return new VLivingEntity<>(((LivingEntity) entity));
+        else return new VEntity<>(entity);
     }
 
 }
