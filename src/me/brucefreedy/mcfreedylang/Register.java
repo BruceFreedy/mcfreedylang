@@ -8,6 +8,7 @@ import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.registry.ProcessRegister;
 import me.brucefreedy.freedylang.registry.ProcessUtils;
+import me.brucefreedy.mcfreedylang.event.RegisterProcessEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 
@@ -36,6 +37,10 @@ public class Register {
         processRegister.register();
         Arrays.stream(ProcessDefs.values()).forEach(pDefs -> processRegister.register(pDefs.getSupplier()));
         scope = new Scope();
+        {
+            RegisterProcessEvent registerProcessEvent = new RegisterProcessEvent(processRegister);
+            Bukkit.getPluginManager().callEvent(registerProcessEvent);
+        }
         HandlerList.unregisterAll(API.getPlugin());
         Bukkit.getScheduler().cancelTasks(API.getPlugin());
         File src = new File(API.getPlugin().getDataFolder(), "src");
@@ -52,6 +57,7 @@ public class Register {
             process.run(new ProcessUnit(processRegister.getVariableRegister()));
         });
         Arrays.stream(MethodDefs.values()).forEach(m -> scope.register(m.name().toLowerCase(), m.getMethod()));
+
     }
 
     public static Process<?> parsing(ProcessRegister processRegister, Path path) {
