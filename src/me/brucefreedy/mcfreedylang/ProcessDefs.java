@@ -27,6 +27,7 @@ public enum ProcessDefs {
     DAMAGE_BY_ENTITY(EventListener.DamageByEntity::new),
     DAMAGE_BY_BLOCK(EventListener.DamageByBlock::new),
     ENTITY_DAMAGE(EventListener.EntityDamage::new),
+    ENTITY_DEATH(EventListener.EntityDeath::new),
     PROJECTILE_HIT(EventListener.ProjectileHit::new),
     PROJECTILE_LAUNCH(EventListener.ProjectileLaunch::new),
     ;

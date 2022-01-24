@@ -287,13 +287,13 @@ public interface EventListener {
     }
 
     @Processable(alias = "entitydeath")
-    class EntityDeathEvent<T extends org.bukkit.event.entity.EntityDeathEvent> extends AbstractEntity<T> {
+    class EntityDeath extends AbstractEntity<EntityDeathEvent> {
         @EventHandler
-        public void onEvent(T event) {
+        public void onEvent(EntityDeathEvent event) {
             super.onEvent(event);
         }
         @Override
-        protected void wrap(T event, Scope scope) {
+        protected void wrap(EntityDeathEvent event, Scope scope) {
             super.wrap(event, scope);
             register(scope, "droppedExp", new SimpleNumber(event.getDroppedExp()));
             /// STOPSHIP: 2022-01-24
