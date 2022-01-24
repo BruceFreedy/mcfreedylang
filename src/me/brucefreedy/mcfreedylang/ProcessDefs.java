@@ -31,7 +31,6 @@ public enum ProcessDefs {
     ENTITY_DEATH(EventListener.EntityDeath::new),
     PROJECTILE_HIT(EventListener.ProjectileHit::new),
     PROJECTILE_LAUNCH(EventListener.ProjectileLaunch::new),
-    CUSTOM_EVENT_LISTENER(CustomEventListener::new),
     ;
     private final Supplier<Process<?>> supplier;
 }
