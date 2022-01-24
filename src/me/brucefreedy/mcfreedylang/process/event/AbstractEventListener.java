@@ -52,7 +52,11 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
 
     public void onEvent(EV event) {
         Scope scope = new Scope(Scope.ScopeType.METHOD);
-        if (body instanceof AbstractFront) ((AbstractFront) body).setBeforeRun(() -> wrap(event, scope));
+        if (body instanceof AbstractFront) {
+            AbstractFront body = (AbstractFront) this.body;
+            body.setScopeSupplier(() -> new Scope(Scope.ScopeType.METHOD));
+            body.setBeforeRun(() -> wrap(event, scope));
+        }
         else wrap(event, scope);
         VariableRegister register = new VariableRegister();
         register.add(API.getRegister().getScope());
