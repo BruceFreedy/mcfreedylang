@@ -34,7 +34,7 @@ public interface EventListener {
         @Override
         protected void wrap(PlayerJoinEvent event, Scope scope) {
             super.wrap(event, scope);
-            scope.register("message", event.getJoinMessage());
+            scope.register("message", new SimpleText(event.getJoinMessage()));
         }
         @Override
         protected void map(PlayerJoinEvent event, Scope scope) {
@@ -52,7 +52,7 @@ public interface EventListener {
         @Override
         protected void wrap(PlayerQuitEvent event, Scope scope) {
             super.wrap(event, scope);
-            scope.register("message", event.getQuitMessage());
+            scope.register("message", new SimpleText(event.getQuitMessage()));
         }
         @Override
         protected void map(PlayerQuitEvent event, Scope scope) {
@@ -93,8 +93,8 @@ public interface EventListener {
         @Override
         protected void wrap(PlayerChatEvent event, Scope scope) {
             super.wrap(event, scope);
-            register(scope, "format", event.getFormat());
-            register(scope, "message", event.getMessage());
+            register(scope, "format", new SimpleText(event.getFormat()));
+            register(scope, "message", new SimpleText(event.getMessage()));
         }
         @Override
         protected void map(PlayerChatEvent event, Scope scope) {
