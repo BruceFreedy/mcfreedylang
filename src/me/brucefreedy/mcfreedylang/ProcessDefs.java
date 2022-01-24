@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.mcfreedylang.process.*;
+import me.brucefreedy.mcfreedylang.process.event.CustomEventListener;
 import me.brucefreedy.mcfreedylang.process.event.EventListener;
 
 import java.util.function.Supplier;
@@ -30,6 +31,7 @@ public enum ProcessDefs {
     ENTITY_DEATH(EventListener.EntityDeath::new),
     PROJECTILE_HIT(EventListener.ProjectileHit::new),
     PROJECTILE_LAUNCH(EventListener.ProjectileLaunch::new),
+    CUSTOM_EVENT_LISTENER(CustomEventListener::new),
     ;
     private final Supplier<Process<?>> supplier;
 }
