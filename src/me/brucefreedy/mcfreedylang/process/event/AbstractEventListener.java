@@ -30,6 +30,7 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         if (peek != null) peek.add(this);
         if (body instanceof AbstractFront) parseUnit.popPeek(stealer -> {
             stealer.setProcess(body);
+            ((AbstractFront) body).setScopeSupplier(() -> new Scope(Scope.ScopeType.METHOD));
             body = stealer;
         });
     }
@@ -54,7 +55,6 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         Scope scope = new Scope(Scope.ScopeType.METHOD);
         if (body instanceof AbstractFront) {
             AbstractFront body = (AbstractFront) this.body;
-            body.setScopeSupplier(() -> new Scope(Scope.ScopeType.METHOD));
             body.setBeforeRun(() -> wrap(event, scope));
         }
         else wrap(event, scope);
