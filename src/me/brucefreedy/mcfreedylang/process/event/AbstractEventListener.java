@@ -28,9 +28,11 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         if (body instanceof Breaker) body = Process.parsing(parseUnit);
         List<Process<?>> peek = parseUnit.getDeclaration().peek();
         if (peek != null) peek.add(this);
-        if (body instanceof AbstractFront) parseUnit.popPeek(stealer -> {
-            stealer.setProcess(body);
+        if (body instanceof AbstractFront) {
             ((AbstractFront) body).setScopeSupplier(() -> new Scope(Scope.ScopeType.METHOD));
+        }
+        parseUnit.popPeek(stealer -> {
+            stealer.setProcess(body);
             body = stealer;
         });
     }
