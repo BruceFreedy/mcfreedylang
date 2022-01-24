@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.mcfreedylang.process.*;
-import me.brucefreedy.mcfreedylang.process.event.CustomEventListener;
 import me.brucefreedy.mcfreedylang.process.event.EventListener;
 
 import java.util.function.Supplier;
