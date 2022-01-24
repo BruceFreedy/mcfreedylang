@@ -149,11 +149,22 @@ public interface EventListener {
             super.wrap(event, scope);
             register(scope, "action", new VInventoryAction(event.getAction()));
             register(scope, "click", new VClickType(event.getClick()));
-            register(scope, "inventory", event.getClickedInventory());
-            register(scope, "currentItem", new VItem(event.getCurrentItem()));
-            register(scope, "cursor", new VItem(event.getCursor()));
+            register(scope, "inventory",
+                    event.getClickedInventory() == null ? new Null() : event.getClickedInventory());
+            register(scope, "currentItem",
+                    event.getCurrentItem() == null ? new Null() : new VItem(event.getCurrentItem()));
+            register(scope, "cursor",
+                    event.getCursor() == null ? new Null() : new VItem(event.getCursor()));
             register(scope, "slot", new SimpleNumber(event.getSlot()));
             register(scope, "hotbar", new SimpleNumber(event.getHotbarButton()));
+        }
+        @Override
+        protected void map(InventoryClickEvent event, Scope scope) {
+            super.map(event, scope);
+            VItem currentItem = scope.getRegistry("currentItem", VItem.class);
+            if (currentItem != null) event.setCurrentItem(currentItem.getObject());
+            VItem cursor = scope.getRegistry("cursor", VItem.class);
+            if (cursor != null) event.setCursor(cursor.getObject());
         }
     }
 
