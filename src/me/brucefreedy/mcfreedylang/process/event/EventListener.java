@@ -2,9 +2,11 @@ package me.brucefreedy.mcfreedylang.process.event;
 
 import me.brucefreedy.freedylang.lang.Processable;
 import me.brucefreedy.freedylang.lang.abst.Null;
+import me.brucefreedy.freedylang.lang.abst.SimpleList;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import me.brucefreedy.freedylang.lang.variable.bool.Bool;
+import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
 import me.brucefreedy.mcfreedylang.variable.*;
 import me.brucefreedy.mcfreedylang.variable.enumvar.*;
@@ -17,6 +19,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
+
+import java.util.stream.Collectors;
 
 public interface EventListener {
 
@@ -254,7 +258,7 @@ public interface EventListener {
     }
 
     @Processable(alias = "projectilelaunch")
-    class ProjectileLaunch extends AbstractEntitySpawn<ProjectileLaunchEvent> {
+    class ProjectileLaunch extends EntitySpawn<ProjectileLaunchEvent> {
         @EventHandler
         public void onEvent(ProjectileLaunchEvent event) {
             super.onEvent(event);
@@ -270,7 +274,7 @@ public interface EventListener {
     }
 
     @Processable(alias = "entityspawn")
-    class AbstractEntitySpawn<T extends EntitySpawnEvent> extends AbstractEntityCancellable<T> {
+    class EntitySpawn<T extends EntitySpawnEvent> extends AbstractEntityCancellable<T> {
         @EventHandler
         public void onEvent(T event) {
             super.onEvent(event);
@@ -296,7 +300,13 @@ public interface EventListener {
         protected void wrap(EntityDeathEvent event, Scope scope) {
             super.wrap(event, scope);
             register(scope, "droppedExp", new SimpleNumber(event.getDroppedExp()));
-            /// STOPSHIP: 2022-01-24
+            register(scope, "drops", new SimpleList(event.getDrops().stream().map(VItem::new).collect(Collectors.toList())));
+        }
+        @Override
+        protected void map(EntityDeathEvent event, Scope scope) {
+            super.map(event, scope);
+            Number droppedExp = scope.getRegistry("droppedExp", Number.class);
+            if (droppedExp != null) event.setDroppedExp(droppedExp.getNumber().intValue());
         }
     }
 
@@ -312,7 +322,7 @@ public interface EventListener {
         protected void map(T event, Scope scope) {
             super.map(event, scope);
             Number damage = scope.getRegistry("damage", Number.class);
-            if (damage != null) event.setDamage(damage.doubleValue());
+            if (damage != null) event.setDamage(damage.getNumber().doubleValue());
         }
     }
 
