@@ -8,6 +8,7 @@ import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import me.brucefreedy.freedylang.lang.variable.bool.Bool;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
+import me.brucefreedy.freedylang.lang.variable.text.SimpleText;
 import me.brucefreedy.mcfreedylang.variable.*;
 import me.brucefreedy.mcfreedylang.variable.enumvar.*;
 import org.bukkit.entity.Entity;
@@ -112,11 +113,12 @@ public interface EventListener {
         @Override
         protected void wrap(PlayerCommandPreprocessEvent event, Scope scope) {
             super.wrap(event, scope);
-            register(scope, "message", event.getMessage());
+            register(scope, "message", new SimpleText(event.getMessage()));
         }
         @Override
         protected void map(PlayerCommandPreprocessEvent event, Scope scope) {
             super.map(event, scope);
+            event.setMessage(scope.getRegistry("message").toString());
         }
     }
 
