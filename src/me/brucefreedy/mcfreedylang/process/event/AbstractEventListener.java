@@ -32,6 +32,7 @@ public abstract class AbstractEventListener<EV extends Event> implements Process
 
     @Override
     public void run(ProcessUnit processUnit) {
+        System.out.println("debug : " + (parent == null));
         parent = processUnit.getVariableRegister().peek();
     }
 
