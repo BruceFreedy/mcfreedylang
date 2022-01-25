@@ -43,4 +43,8 @@ public class VPlayer extends VLivingEntity<Player> {
         register("permission", voidFunc(params -> Bool.get(object.hasPermission(params.first().toString()))));
     }
 
+    @Override
+    public String toString() {
+        return object.getName();
+    }
 }
