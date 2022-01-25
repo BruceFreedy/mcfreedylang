@@ -15,8 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
-public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<AbstractEventListener<EV>>
-        implements Listener {
+public abstract class AbstractEventListener<EV extends Event> implements Process<AbstractEventListener<EV>>, Listener {
 
     Process<?> body;
     Scope parent;
@@ -34,7 +33,6 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
     @Override
     public void run(ProcessUnit processUnit) {
         parent = processUnit.getVariableRegister().peek();
-        System.out.println("debug : " + (parent == null));
     }
 
     @Override
