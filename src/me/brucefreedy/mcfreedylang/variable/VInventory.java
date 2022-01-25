@@ -7,14 +7,17 @@ import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class VInventory extends SimpleVar<Inventory> {
     public VInventory(Inventory object) {
         super(object);
         register("getItem", (Method) (unit, params) -> {
             Object first = params.first();
-            if (first instanceof Number)
-                return new VItem(object.getItem(((Number) first).getNumber().intValue()));
+            if (first instanceof Number) {
+                ItemStack item = object.getItem(((Number) first).getNumber().intValue());
+                return item == null ? new Null() : new VItem(item);
+            }
             return new Null();
         });
         register("add", (Method) (unit, params) -> {
