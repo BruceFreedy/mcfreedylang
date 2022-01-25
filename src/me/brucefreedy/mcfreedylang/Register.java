@@ -73,7 +73,7 @@ public class Register {
         }
         String source = ColorEdit.toColor(stringBuilder.toString());
         return Process.parsing(new ParseUnit(processRegister,
-                "{class " + ProcessUtils.withoutExtension(path.getFileName().toString()) + "{" + source + "}}"));
+                "{class " + ProcessUtils.withoutExtension(path.toFile().getName()) + "{" + source + "}}"));
     }
 
 }
