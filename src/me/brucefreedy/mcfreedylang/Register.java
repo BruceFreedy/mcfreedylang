@@ -72,7 +72,8 @@ public class Register {
             e.printStackTrace();
         }
         String source = ColorEdit.toColor(stringBuilder.toString());
-        return Process.parsing(new ParseUnit(processRegister, "{" + source + "}"));
+        return Process.parsing(new ParseUnit(processRegister,
+                "{class " + ProcessUtils.withoutExtension(path.getFileName().toString()) + "{" + source + "}}"));
     }
 
 }
