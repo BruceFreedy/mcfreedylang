@@ -5,8 +5,9 @@ import me.brucefreedy.freedylang.lang.Breaker;
 import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
-import me.brucefreedy.freedylang.lang.abst.EmptyImpl;
 import me.brucefreedy.freedylang.lang.abst.Null;
+import me.brucefreedy.freedylang.lang.abst.Stealer;
+import me.brucefreedy.freedylang.lang.abst.StealerImpl;
 import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
@@ -15,7 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
-public abstract class AbstractEventListener<EV extends Event> implements Process<AbstractEventListener<EV>>, Listener {
+public abstract class AbstractEventListener<EV extends Event> implements Stealer<AbstractEventListener<EV>>, Listener {
 
     Process<?> body;
     Scope parent;
@@ -25,6 +26,8 @@ public abstract class AbstractEventListener<EV extends Event> implements Process
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
         body = Process.parsing(parseUnit);
         if (body instanceof Breaker) body = Process.parsing(parseUnit);
+        List<Process<?>> peek = parseUnit.getDeclaration().peek();
+        if (peek != null) peek.add(this);
         if (body instanceof AbstractFront) {
             ((AbstractFront) body).setScopeSupplier(() -> new Scope(Scope.ScopeType.METHOD));
         } else parseUnit.steal(p -> body = p, () -> body);
@@ -32,7 +35,6 @@ public abstract class AbstractEventListener<EV extends Event> implements Process
 
     @Override
     public void run(ProcessUnit processUnit) {
-        System.out.println("debug : " + (parent == null));
         parent = processUnit.getVariableRegister().peek();
     }
 
@@ -64,6 +66,11 @@ public abstract class AbstractEventListener<EV extends Event> implements Process
 
     protected void register(Scope scope, String name, Object o) {
         scope.register(name, o == null ? new Null() : o);
+    }
+
+    @Override
+    public void setProcess(Process<?> process) {
+
     }
 
 }
