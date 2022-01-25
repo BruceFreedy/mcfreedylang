@@ -31,6 +31,7 @@ public abstract class AbstractEventListener<EV extends Event> implements Stealer
         if (body instanceof AbstractFront) {
             ((AbstractFront) body).setScopeSupplier(() -> new Scope(Scope.ScopeType.METHOD));
         } else parseUnit.steal(p -> body = p, () -> body);
+        parseUnit.add(this);
     }
 
     @Override
