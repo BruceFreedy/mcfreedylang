@@ -2,6 +2,7 @@ package me.brucefreedy.mcfreedylang;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
 import me.brucefreedy.freedylang.lang.body.AbstractFront;
@@ -71,7 +72,7 @@ public class Register {
             e.printStackTrace();
         }
         String source = ColorEdit.toColor(stringBuilder.toString());
-        return ProcessUtils.parsing(processRegister, ProcessUtils.withoutExtension(path.toFile().getName()), source);
+        return Process.parsing(new ParseUnit(processRegister, "{" + source + "}"));
     }
 
 }
