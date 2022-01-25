@@ -26,17 +26,15 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
         body = Process.parsing(parseUnit);
         if (body instanceof Breaker) body = Process.parsing(parseUnit);
-        List<Process<?>> peek = parseUnit.getDeclaration().peek();
-        if (peek != null) peek.add(this);
         if (body instanceof AbstractFront) {
             ((AbstractFront) body).setScopeSupplier(() -> new Scope(Scope.ScopeType.METHOD));
-        }
-        parseUnit.steal(p -> body = p, () -> body);
+        } else parseUnit.steal(p -> body = p, () -> body);
     }
 
     @Override
     public void run(ProcessUnit processUnit) {
         parent = processUnit.getVariableRegister().peek();
+        System.out.println("debug : " + (parent == null));
     }
 
     @Override
