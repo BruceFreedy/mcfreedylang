@@ -31,10 +31,7 @@ public abstract class AbstractEventListener<EV extends Event> extends EmptyImpl<
         if (body instanceof AbstractFront) {
             ((AbstractFront) body).setScopeSupplier(() -> new Scope(Scope.ScopeType.METHOD));
         }
-        parseUnit.popPeek(stealer -> {
-            stealer.setProcess(body);
-            body = stealer;
-        });
+        parseUnit.steal(p -> body = p, () -> body);
     }
 
     @Override
