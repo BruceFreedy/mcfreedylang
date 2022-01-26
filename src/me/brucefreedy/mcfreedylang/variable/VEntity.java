@@ -1,6 +1,8 @@
 package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.freedylang.lang.abst.Method;
+import me.brucefreedy.freedylang.lang.body.AbstractFront;
+import me.brucefreedy.freedylang.lang.variable.AbstractVar;
 import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -22,6 +24,8 @@ public class VEntity<T extends Entity> extends SimpleVar<T> {
     @Override
     public boolean equals(Object o) {
         if (super.equals(o)) return true;
-        return object.getUniqueId().equals(object.getUniqueId());
+        if (o instanceof AbstractVar)
+            return object.getUniqueId().equals(((AbstractVar<?>) o).getObject());
+        return false;
     }
 }
