@@ -20,12 +20,4 @@ public class VEntity<T extends Entity> extends SimpleVar<T> {
                 object::setVelocity, () -> new VVector(object.getVelocity())));
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (super.equals(o)) return true;
-        if (o instanceof VEntity) {
-            return ((VEntity<?>) o).getObject().getUniqueId().equals(this.getObject().getUniqueId());
-        }
-        return false;
-    }
 }
