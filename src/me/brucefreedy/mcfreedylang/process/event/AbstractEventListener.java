@@ -26,11 +26,7 @@ public abstract class AbstractEventListener<EV extends Event> implements Stealer
         Bukkit.getPluginManager().registerEvents(this, API.getPlugin());
         body = Process.parsing(parseUnit);
         if (body instanceof Breaker) body = Process.parsing(parseUnit);
-        List<Process<?>> peek = parseUnit.getDeclaration().peek();
-        if (peek != null) peek.add(this);
-        if (body instanceof AbstractFront) {
-            ((AbstractFront) body).setScopeSupplier(() -> new Scope(Scope.ScopeType.METHOD));
-        } else parseUnit.steal(p -> body = p, () -> body);
+        if (!(body instanceof AbstractFront)) parseUnit.steal(p -> body = p, () -> body);
         parseUnit.add(this);
     }
 
@@ -55,6 +51,7 @@ public abstract class AbstractEventListener<EV extends Event> implements Stealer
         if (body instanceof AbstractFront) {
             AbstractFront body = (AbstractFront) this.body;
             body.setBeforeRun(() -> wrap(event, scope));
+            body.setScopeSupplier(() -> scope);
         }
         else wrap(event, scope);
         VariableRegister register = new VariableRegister();
