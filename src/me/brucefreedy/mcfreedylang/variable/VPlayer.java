@@ -5,6 +5,8 @@ import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.bool.Bool;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
+import me.brucefreedy.mcfreedylang.API;
+import me.brucefreedy.mcfreedylang.PlayerMeta;
 import me.brucefreedy.mcfreedylang.variable.enumvar.VGameMode;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -41,10 +43,16 @@ public class VPlayer extends VLivingEntity<Player> {
         register("updateInventory", voidFunc(params -> object.updateInventory()));
         register("closeInventory", voidFunc(params -> object.closeInventory()));
         register("permission", voidFunc(params -> Bool.get(object.hasPermission(params.first().toString()))));
+        register("set", voidFunc(a -> getMeta().set(a.get(0).toString(), a.get(1))));
+        register("get", func(a -> getMeta().get(a.toString())));
     }
 
     @Override
     public String toString() {
         return object.getName();
+    }
+
+    private PlayerMeta getMeta() {
+        return API.getRegister().getPlayerMetaRegistry().getRegistry(object.getUniqueId());
     }
 }
