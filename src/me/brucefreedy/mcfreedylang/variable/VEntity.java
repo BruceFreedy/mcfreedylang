@@ -1,5 +1,6 @@
 package me.brucefreedy.mcfreedylang.variable;
 
+import com.sun.org.apache.bcel.internal.generic.I2F;
 import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.variable.AbstractVar;
@@ -24,8 +25,11 @@ public class VEntity<T extends Entity> extends SimpleVar<T> {
     @Override
     public boolean equals(Object o) {
         if (super.equals(o)) return true;
-        if (o instanceof AbstractVar)
-            return object.getUniqueId().equals(((AbstractVar<?>) o).getObject());
+        if (o instanceof AbstractVar) {
+            Object object = ((AbstractVar<?>) o).getObject();
+            if (object instanceof Entity)
+                return this.object.getUniqueId().equals(((Entity) object).getUniqueId());
+        }
         return false;
     }
 }
