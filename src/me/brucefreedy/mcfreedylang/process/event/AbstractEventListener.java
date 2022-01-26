@@ -47,17 +47,19 @@ public abstract class AbstractEventListener<EV extends Event> implements Stealer
     protected void map(EV event, Scope scope) {}
 
     public void onEvent(EV event) {
+        VariableRegister register = new VariableRegister();
+        register.add(API.getRegister().getScope());
+        if (parent != null) register.add(parent);
         Scope scope = new Scope(Scope.ScopeType.METHOD);
         if (body instanceof AbstractFront) {
             AbstractFront body = (AbstractFront) this.body;
             body.setBeforeRun(() -> wrap(event, scope));
             body.setScopeSupplier(() -> scope);
         }
-        else wrap(event, scope);
-        VariableRegister register = new VariableRegister();
-        register.add(API.getRegister().getScope());
-        if (parent != null) register.add(parent);
-        register.add(scope);
+        else {
+            wrap(event, scope);
+            register.add(scope);
+        }
         body.run(new ProcessUnit(register));
         map(event, scope);
     }
