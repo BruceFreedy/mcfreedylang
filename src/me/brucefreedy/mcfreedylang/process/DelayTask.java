@@ -4,6 +4,7 @@ import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.*;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.abst.Stacker;
+import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
@@ -16,6 +17,7 @@ public class DelayTask implements Process<Object>, Stacker<Object> {
     Object result = new Null();
     Process<?> delay;
     Process<?> body;
+    Scope parent;
 
     @Override
     public void parse(ParseUnit parseUnit) {
@@ -31,10 +33,15 @@ public class DelayTask implements Process<Object>, Stacker<Object> {
             body = Process.parsing(parseUnit);
             parseUnit.steal(p -> body = p, () -> body);
         }
+        parseUnit.getDeclaration().peek().add(this);
     }
 
     @Override
     public void run(ProcessUnit processUnit) {
+        if (parent == null) {
+            parent = processUnit.getVariableRegister().peek();
+            return;
+        }
         long delay;
         this.delay.run(processUnit);
         Object delayO = this.delay.get();
