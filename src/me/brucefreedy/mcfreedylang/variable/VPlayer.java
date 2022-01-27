@@ -44,6 +44,7 @@ public class VPlayer extends VLivingEntity<Player> {
         register("closeInventory", voidFunc(params -> object.closeInventory()));
         register("permission", voidFunc(params -> Bool.get(object.hasPermission(params.first().toString()))));
         register("set", voidFunc(a -> {
+            System.out.println(API.getRegister().getPlayerMetaRegistry().getRegistry());
             System.out.println("alsdfjaslkdfkslfkdlfa");
             getMeta().set(a.get(0).toString(), a.get(1));
         }));
@@ -59,13 +60,6 @@ public class VPlayer extends VLivingEntity<Player> {
     }
 
     private PlayerMeta getMeta() {
-        try {
-            PlayerMeta registry = API.getRegister().getPlayerMetaRegistry().getRegistry(object.getUniqueId());
-            if (registry == null) throw new NullPointerException();
-            return registry;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return API.getRegister().getPlayerMetaRegistry().getRegistry(object.getUniqueId());
     }
 }
