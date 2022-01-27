@@ -28,6 +28,7 @@ public class Async extends ProcessImpl<Object> {
         Object o = process.get();
         String src = o.toString();
         VariableRegister variableRegister = new VariableRegister(processUnit.getVariableRegister());
+        if (!variableRegister.isEmpty()) variableRegister.set(0, API.getRegister().getScope());
         Bukkit.getScheduler().runTaskAsynchronously(API.getPlugin(), () -> {
             Process<?> p = Process.parsing(new ParseUnit(API.getRegister().getProcessRegister(), src));
             p.run(new ProcessUnit(variableRegister));

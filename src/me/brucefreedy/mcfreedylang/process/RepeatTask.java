@@ -40,6 +40,7 @@ public class RepeatTask implements Process<Object>, Stacker<Object> {
         if (periodO instanceof Number) period = ((Number) periodO).getNumber().longValue();
         else return;
         VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
+        if (!register.isEmpty()) register.set(0, API.getRegister().getScope());
         int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(API.getPlugin(),
                 () -> body.run(new ProcessUnit(register)), delay, period);
         result = new SimpleNumber(id);
