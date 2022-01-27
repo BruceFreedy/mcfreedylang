@@ -2,6 +2,7 @@ package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
+import me.brucefreedy.freedylang.lang.variable.AbstractVar;
 import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
@@ -35,7 +36,9 @@ public class VInventory extends SimpleVar<Inventory> {
         });
         register("size", (Method) (unit, params) -> new SimpleNumber(object.getSize()));
         register("open", method(o -> o instanceof VPlayer, Player.class, player -> player.openInventory(object), Null::new));
-
-
+        register("contents", method(o -> o instanceof VItemContents, VItemContents.ItemsCont.class,
+                cont -> this.object.setContents(cont.stream().map(AbstractVar::getObject).toArray(ItemStack[]::new)),
+                () -> new VItemContents(object.getContents())));
+        register("clear", voidFunc(objects -> object.clear()));
     }
 }
