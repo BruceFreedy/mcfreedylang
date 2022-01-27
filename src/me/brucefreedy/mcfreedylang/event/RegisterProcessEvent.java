@@ -5,7 +5,6 @@ import lombok.Getter;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.registry.ProcessRegister;
-import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 

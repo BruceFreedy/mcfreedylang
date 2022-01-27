@@ -1,7 +1,6 @@
 package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.freedylang.lang.abst.Method;
-import me.brucefreedy.freedylang.lang.variable.AbstractVar;
 import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

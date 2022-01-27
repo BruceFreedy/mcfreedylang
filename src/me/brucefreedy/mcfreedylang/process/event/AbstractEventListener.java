@@ -1,13 +1,11 @@
 package me.brucefreedy.mcfreedylang.process.event;
 
-import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.Breaker;
 import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.abst.Stealer;
-import me.brucefreedy.freedylang.lang.abst.StealerImpl;
 import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
