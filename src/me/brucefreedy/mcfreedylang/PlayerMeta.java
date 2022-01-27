@@ -9,12 +9,7 @@ import java.util.List;
 
 public class PlayerMeta extends MetadataStoreBase<Null> {
 
-    private static final Null aNull = new Null() {
-        @Override
-        public String toString() {
-            return "debug!!!";
-        }
-    };
+    private static final Null aNull = new Null();
 
     @Override
     protected String disambiguate(Null subject, String metadataKey) {
@@ -22,6 +17,7 @@ public class PlayerMeta extends MetadataStoreBase<Null> {
     }
 
     public Object get(String key) {
+        System.out.println("getttatatat");
         List<MetadataValue> metadata = getMetadata(aNull, key);
         if (metadata.isEmpty()) return new Null();
         MetadataValue metadataValue = metadata.get(0);
@@ -29,6 +25,7 @@ public class PlayerMeta extends MetadataStoreBase<Null> {
     }
 
     public void set(String key, Object o) {
+        System.out.println("aaaaaaaaa");
         setMetadata(aNull, key, new FixedMetadataValue(API.getPlugin(), o));
     }
 
