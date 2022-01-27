@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class VItem extends SimpleVar<ItemStack> {
     public VItem(ItemStack i) {
-        super(i != null ? i.clone() : null);
+        super(i);
         register("type", method(o -> o instanceof VMaterial, Material.class, object::setType, object::getType));
         register("size", intValue(object::setAmount, object::getAmount));
         register("name", stringValue(this::setName, this::getName));
