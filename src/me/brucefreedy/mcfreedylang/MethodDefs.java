@@ -6,16 +6,16 @@ import lombok.Getter;
 import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
+import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
+import me.brucefreedy.freedylang.lang.variable.text.SimpleText;
 import me.brucefreedy.mcfreedylang.variable.VInventory;
 import me.brucefreedy.mcfreedylang.variable.VItem;
 import me.brucefreedy.mcfreedylang.variable.VLocation;
 import me.brucefreedy.mcfreedylang.variable.VVector;
+import me.brucefreedy.mcfreedylang.variable.enumvar.VGameMode;
 import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
 import net.jafama.FastMath;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -107,7 +107,28 @@ public enum MethodDefs {
                     ((Number    ) params.get(1)).getNumber().intValue()));
         } catch (Exception ignored) {}
         return new VItem(new ItemStack(Material.AIR));
-    })
+    }),
+    GAMEMODE((unit, params) -> {
+        try {
+            Object o = params.first();
+            if (o instanceof Number) return new VGameMode(GameMode.getByValue(((Number) o).getNumber().intValue()));
+            else return new VGameMode(GameMode.valueOf(o.toString()));
+        } catch (Exception ignored) {}
+        return new Null();
+    }),
+    NUMBER((unit, params) -> {
+       try {
+           return new SimpleNumber(Double.parseDouble(params.toString()));
+       } catch (Exception ignored) {}
+       return new Null();
+    }),
+    STRING((unit, params) -> {
+        try {
+            return new SimpleText(params.toString());
+        } catch (Exception ignored) {}
+        return new Null();
+    }),
+
     ;
     private final Method method;
 
