@@ -98,9 +98,13 @@ public enum MethodDefs {
             return new Null();
         }
     }),
-    ITEM((unit, params) -> {  //item(material AIR)
+    ITEM((unit, params) -> {
         try {
-            return new VItem(new ItemStack(((VMaterial) params.first()).getObject()));
+            if (params.isEmpty()) return new VItem(new ItemStack(Material.AIR));
+            if (params.size() == 1) return new VItem(new ItemStack(((VMaterial) params.first()).getObject()));
+            else if (params.size() == 2) return new VItem(new ItemStack(
+                    ((VMaterial) params.get(0)).getObject(),
+                    ((Number) params.get(1)).getNumber().intValue()));
         } catch (Exception ignored) {}
         return new VItem(new ItemStack(Material.AIR));
     })

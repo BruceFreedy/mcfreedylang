@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 public class VInventory extends SimpleVar<Inventory> {
     public VInventory(Inventory object) {
         super(object);
-        register("getItem", (Method) (unit, params) -> {
+        register("get", (Method) (unit, params) -> {
             Object first = params.first();
             if (first instanceof Number) {
                 ItemStack item = object.getItem(((Number) first).getNumber().intValue());
