@@ -7,6 +7,7 @@ import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.mcfreedylang.variable.VInventory;
+import me.brucefreedy.mcfreedylang.variable.VItem;
 import me.brucefreedy.mcfreedylang.variable.VLocation;
 import me.brucefreedy.mcfreedylang.variable.VVector;
 import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
@@ -16,6 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 @Getter
@@ -96,6 +98,12 @@ public enum MethodDefs {
             return new Null();
         }
     }),
+    ITEM((unit, params) -> {  //item(material AIR)
+        try {
+            return new VItem(new ItemStack(((VMaterial) params.first()).getObject()));
+        } catch (Exception ignored) {}
+        return new VItem(new ItemStack(Material.AIR));
+    })
     ;
     private final Method method;
 
