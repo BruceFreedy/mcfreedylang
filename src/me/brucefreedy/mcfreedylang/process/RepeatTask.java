@@ -66,6 +66,7 @@ public class RepeatTask implements Process<Object>, Stacker<Object> {
         else return;
         VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
         if (!register.isEmpty()) register.set(0, API.getRegister().getScope());
+        register.set(processUnit.getVariableRegister().indexOf(parent), parent);
         int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(API.getPlugin(),
                 () -> body.run(new ProcessUnit(register)), delay, period);
         result = new SimpleNumber(id);

@@ -49,6 +49,7 @@ public class DelayTask implements Process<Object>, Stacker<Object> {
         else return;
         VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
         if (!register.isEmpty()) register.set(0, API.getRegister().getScope());
+        register.set(processUnit.getVariableRegister().indexOf(parent), parent);
         int id = Bukkit.getScheduler().runTaskLater(API.getPlugin(),
                 () -> body.run(new ProcessUnit(register)), delay).getTaskId();
         result = new SimpleNumber(id);
