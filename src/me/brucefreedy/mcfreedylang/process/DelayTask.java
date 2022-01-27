@@ -1,5 +1,6 @@
 package me.brucefreedy.mcfreedylang.process;
 
+import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.*;
 import me.brucefreedy.freedylang.lang.abst.Null;
@@ -18,6 +19,7 @@ public class DelayTask implements Process<Object>, Stacker<Object> {
     Process<?> delay;
     Process<?> body;
     Scope parent;
+    boolean hasNoParent;
 
     @Override
     public void parse(ParseUnit parseUnit) {
@@ -33,12 +35,14 @@ public class DelayTask implements Process<Object>, Stacker<Object> {
             body = Process.parsing(parseUnit);
             parseUnit.steal(p -> body = p, () -> body);
         }
-        parseUnit.getDeclaration().peek().add(this);
+        List<Process<?>> peek = parseUnit.getDeclaration().peek();
+        if (peek != null) peek.add(this);
+        else hasNoParent = true;
     }
 
     @Override
     public void run(ProcessUnit processUnit) {
-        if (parent == null) {
+        if (parent == null && !hasNoParent) {
             parent = processUnit.getVariableRegister().peek();
             return;
         }
@@ -49,7 +53,7 @@ public class DelayTask implements Process<Object>, Stacker<Object> {
         else return;
         VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
         if (!register.isEmpty()) register.set(0, API.getRegister().getScope());
-        register.set(processUnit.getVariableRegister().indexOf(parent), parent);
+        if (!hasNoParent) register.set(processUnit.getVariableRegister().indexOf(parent), parent);
         int id = Bukkit.getScheduler().runTaskLater(API.getPlugin(),
                 () -> body.run(new ProcessUnit(register)), delay).getTaskId();
         result = new SimpleNumber(id);
