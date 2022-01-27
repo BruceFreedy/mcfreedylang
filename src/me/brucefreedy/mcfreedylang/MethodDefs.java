@@ -104,7 +104,7 @@ public enum MethodDefs {
             if (params.size() == 1) return new VItem(new ItemStack(((VMaterial) params.first()).getObject()));
             else if (params.size() == 2) return new VItem(new ItemStack(
                     ((VMaterial) params.get(0)).getObject(),
-                    ((Number) params.get(1)).getNumber().intValue()));
+                    ((Number    ) params.get(1)).getNumber().intValue()));
         } catch (Exception ignored) {}
         return new VItem(new ItemStack(Material.AIR));
     })
