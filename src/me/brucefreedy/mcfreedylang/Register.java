@@ -47,6 +47,7 @@ public class Register {
         HandlerList.unregisterAll(API.getPlugin());
         Bukkit.getScheduler().cancelTasks(API.getPlugin());
         Bukkit.getPluginManager().registerEvents(playerMetaRegistry = new PlayerMetaRegistry(), API.getPlugin());
+        Bukkit.getOnlinePlayers().forEach(p -> playerMetaRegistry.register(p.getUniqueId(), new PlayerMeta()));
         File src = new File(API.getPlugin().getDataFolder(), "src");
         if (!src.exists()) {
             src.mkdirs();

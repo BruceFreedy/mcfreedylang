@@ -43,15 +43,8 @@ public class VPlayer extends VLivingEntity<Player> {
         register("updateInventory", voidFunc(params -> object.updateInventory()));
         register("closeInventory", voidFunc(params -> object.closeInventory()));
         register("permission", voidFunc(params -> Bool.get(object.hasPermission(params.first().toString()))));
-        register("set", voidFunc(a -> {
-            System.out.println(API.getRegister().getPlayerMetaRegistry().getRegistry());
-            System.out.println("alsdfjaslkdfkslfkdlfa");
-            getMeta().set(a.get(0).toString(), a.get(1));
-        }));
-        register("get", func(a -> {
-            System.out.println("lllllllllllfffffffaaaaaaa");
-            return getMeta().get(a.toString());
-        }));
+        register("set", voidFunc(a -> getMeta().set(a.get(0).toString(), a.get(1))));
+        register("get", func(a -> getMeta().get(a.toString())));
     }
 
     @Override
