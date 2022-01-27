@@ -9,7 +9,12 @@ import java.util.List;
 
 public class PlayerMeta extends MetadataStoreBase<Null> {
 
-    private final Null aNull = new Null();
+    private static final Null aNull = new Null() {
+        @Override
+        public String toString() {
+            return "debug!!!";
+        }
+    };
 
     @Override
     protected String disambiguate(Null subject, String metadataKey) {
