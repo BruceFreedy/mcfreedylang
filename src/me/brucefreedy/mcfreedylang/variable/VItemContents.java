@@ -20,6 +20,9 @@ public class VItemContents extends SimpleVar<VItemContents.ItemsCont> {
         super(object);
     }
     public VItemContents(ItemStack[] contents) {
-        this(new ItemsCont(Arrays.stream(contents).map(VItem::new).collect(Collectors.toList())));
+        this(new ItemsCont(Arrays.stream(contents).map(itemStack -> {
+            if (itemStack == null) return null;
+            return new VItem(itemStack);
+        }).collect(Collectors.toList())));
     }
 }
