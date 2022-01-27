@@ -21,8 +21,13 @@ public class DelayTask implements Process<Object>, Stacker<Object> {
     public void parse(ParseUnit parseUnit) {
         delay = Process.parsing(parseUnit);
         parseUnit.steal(p -> delay = p, () -> delay);
-        if (delay instanceof Stacker) body = ((Stacker<?>) delay).getProcess();
-        else {
+        if (delay instanceof Stacker) {
+            body = ((Stacker<?>) delay).getProcess();
+            if (body instanceof Breaker) {
+                body = Process.parsing(parseUnit);
+                parseUnit.steal(p -> body = p, () -> body);
+            }
+        } else {
             body = Process.parsing(parseUnit);
             parseUnit.steal(p -> body = p, () -> body);
         }
