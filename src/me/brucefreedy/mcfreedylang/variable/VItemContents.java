@@ -2,6 +2,7 @@ package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.variable.SimpleVar;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -21,7 +22,7 @@ public class VItemContents extends SimpleVar<VItemContents.ItemsCont> {
     }
     public VItemContents(ItemStack[] contents) {
         this(new ItemsCont(Arrays.stream(contents).map(itemStack -> {
-            if (itemStack == null) return null;
+            if (itemStack == null) return new VItem(new ItemStack(Material.AIR));
             return new VItem(itemStack);
         }).collect(Collectors.toList())));
     }
