@@ -4,6 +4,7 @@ import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.*;
 import me.brucefreedy.freedylang.lang.abst.Null;
+import me.brucefreedy.freedylang.lang.abst.ScopeChild;
 import me.brucefreedy.freedylang.lang.abst.Stacker;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
@@ -13,7 +14,7 @@ import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.Bukkit;
 
 @Processable(alias = "repeat")
-public class RepeatTask implements Process<Object>, Stacker<Object> {
+public class RepeatTask implements Process<Object>, Stacker<Object>, ScopeChild {
 
     Object result = new Null();
     Process<?> delay;
@@ -21,6 +22,11 @@ public class RepeatTask implements Process<Object>, Stacker<Object> {
     Process<?> body;
     Scope parent;
     boolean hasNoParent;
+
+    @Override
+    public void setParent(ProcessUnit processUnit, Scope scope) {
+        parent = scope;
+    }
 
     @Override
     public void parse(ParseUnit parseUnit) {
@@ -48,7 +54,7 @@ public class RepeatTask implements Process<Object>, Stacker<Object> {
             body = Process.parsing(parseUnit);
             parseUnit.steal(p -> body = p, () -> body);
         }
-        List<Process<?>> peek = parseUnit.getDeclaration().peek();
+        List<ScopeChild> peek = parseUnit.getDeclaration().peek();
         if (peek != null) peek.add(this);
         else hasNoParent = true;
     }

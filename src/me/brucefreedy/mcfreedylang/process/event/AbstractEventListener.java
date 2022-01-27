@@ -5,6 +5,7 @@ import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.freedylang.lang.ProcessUnit;
 import me.brucefreedy.freedylang.lang.abst.Null;
+import me.brucefreedy.freedylang.lang.abst.ScopeChild;
 import me.brucefreedy.freedylang.lang.abst.Stealer;
 import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.scope.Scope;
@@ -14,10 +15,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
-public abstract class AbstractEventListener<EV extends Event> implements Stealer<AbstractEventListener<EV>>, Listener {
+public abstract class AbstractEventListener<EV extends Event> implements Stealer<AbstractEventListener<EV>>, Listener, ScopeChild {
 
     Process<?> body;
     Scope parent;
+
+    @Override
+    public void setParent(ProcessUnit processUnit, Scope scope) {
+        parent = scope;
+    }
 
     @Override
     public void parse(ParseUnit parseUnit) {
@@ -25,6 +31,7 @@ public abstract class AbstractEventListener<EV extends Event> implements Stealer
         body = Process.parsing(parseUnit);
         if (body instanceof Breaker) body = Process.parsing(parseUnit);
         if (!(body instanceof AbstractFront)) parseUnit.steal(p -> body = p, () -> body);
+        parseUnit.getDeclaration().peek().add(this);
         parseUnit.add(this);
     }
 
