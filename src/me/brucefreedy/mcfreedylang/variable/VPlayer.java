@@ -59,6 +59,12 @@ public class VPlayer extends VLivingEntity<Player> {
     }
 
     private PlayerMeta getMeta() {
-        return API.getRegister().getPlayerMetaRegistry().getRegistry(object.getUniqueId());
+        try {
+            PlayerMeta registry = API.getRegister().getPlayerMetaRegistry().getRegistry(object.getUniqueId());
+            if (registry == null) throw new NullPointerException();
+            return registry;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
