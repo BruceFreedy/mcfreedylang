@@ -22,10 +22,16 @@ public class RepeatTask implements Process<Object>, Stacker<Object> {
     public void parse(ParseUnit parseUnit) {
         delay = Process.parsing(parseUnit);
         parseUnit.steal(p -> delay = p, () -> delay);
-        period = Process.parsing(parseUnit);
-        parseUnit.steal(p -> period = p, () -> period);
-        body = Process.parsing(parseUnit);
-        parseUnit.steal(p -> body = p, () -> body);
+        if (delay instanceof Stacker) period = ((Stacker<?>) delay).getProcess();
+        else {
+            period = Process.parsing(parseUnit);
+            parseUnit.steal(p -> period = p, () -> period);
+        }
+        if (period instanceof Stacker) body = ((Stacker<?>) period).getProcess();
+        else {
+            body = Process.parsing(parseUnit);
+            parseUnit.steal(p -> body = p, () -> body);
+        }
     }
 
     @Override
