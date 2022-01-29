@@ -49,8 +49,10 @@ public class VItem extends SimpleVar<ItemStack> {
 
     private String getName() {
         ItemMeta itemMeta = getOrNewItemMeta();
-        if (itemMeta == null) return new Null().toString();
-        return itemMeta.getDisplayName();
+        if (itemMeta == null) return "";
+        String displayName = itemMeta.getDisplayName();
+        if (displayName == null) return "";
+        return displayName;
     }
 
     private ItemMeta getOrNewItemMeta() {
