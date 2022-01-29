@@ -17,7 +17,6 @@ import me.brucefreedy.mcfreedylang.API;
 import me.brucefreedy.mcfreedylang.command.CustomCommand;
 import me.brucefreedy.mcfreedylang.variable.VCommandBlock;
 import me.brucefreedy.mcfreedylang.variable.VPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.block.CommandBlock;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -48,6 +47,7 @@ public class Command implements ScopeChild, Process<Null> {
             @Override
             public void execute(CommandSender sender, String[] args) {
                 try {
+                    System.out.println("debug-----");
                     VariableRegister scopes = new VariableRegister();
                     scopes.add(API.getRegister().getScope());
                     if (parent != null) scopes.add(parent);
