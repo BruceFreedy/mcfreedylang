@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class VItem extends SimpleVar<ItemStack> {
     public VItem(ItemStack i) {
         super(i);
-        register("type", method(o -> o instanceof VMaterial, Material.class, object::setType, object::getType));
+        register("type", method(o -> o instanceof VMaterial, Material.class, object::setType, () -> new VMaterial(object.getType())));
         register("size", intValue(object::setAmount, object::getAmount));
         register("name", stringValue(this::setName, this::getName));
         register("lore", method(o -> o instanceof ListProcess, List.class, p -> {
@@ -42,14 +42,15 @@ public class VItem extends SimpleVar<ItemStack> {
 
     private void setName(String name) {
         ItemMeta itemMeta = getOrNewItemMeta();
-        if (getOrNewItemMeta() == null) return;
+        if (itemMeta == null) return;
         itemMeta.setDisplayName(name);
         object.setItemMeta(itemMeta);
     }
 
     private String getName() {
-        if (getOrNewItemMeta() == null) return new Null().toString();
-        return getOrNewItemMeta().getDisplayName();
+        ItemMeta itemMeta = getOrNewItemMeta();
+        if (itemMeta == null) return new Null().toString();
+        return itemMeta.getDisplayName();
     }
 
     private ItemMeta getOrNewItemMeta() {
