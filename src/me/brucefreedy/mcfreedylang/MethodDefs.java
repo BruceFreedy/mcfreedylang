@@ -135,7 +135,7 @@ public enum MethodDefs {
     MAP((unit, params) -> {
         HashMap<String, Object> map = new HashMap<>();
         for (int i = 0; i + 1 < params.size(); i += 2) {
-            map.put(params.get(0).toString(), params.get(1));
+            map.put(params.get(i).toString(), params.get(i + 1));
         }
         return new VMap(map);
     }),
