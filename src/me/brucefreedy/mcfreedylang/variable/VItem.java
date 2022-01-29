@@ -2,6 +2,7 @@ package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.abst.ListProcess;
+import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import me.brucefreedy.freedylang.lang.variable.text.SimpleText;
 import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
@@ -41,11 +42,13 @@ public class VItem extends SimpleVar<ItemStack> {
 
     private void setName(String name) {
         ItemMeta itemMeta = getOrNewItemMeta();
+        if (getOrNewItemMeta() == null) return;
         itemMeta.setDisplayName(name);
         object.setItemMeta(itemMeta);
     }
 
     private String getName() {
+        if (getOrNewItemMeta() == null) return new Null().toString();
         return getOrNewItemMeta().getDisplayName();
     }
 
