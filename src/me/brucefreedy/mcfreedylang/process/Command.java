@@ -47,18 +47,22 @@ public class Command implements ScopeChild, Process<Null> {
         API.getRegister().getCommandRegister().registerCommands(new CustomCommand(name) {
             @Override
             public void execute(CommandSender sender, String[] args) {
-                VariableRegister scopes = new VariableRegister();
-                scopes.add(API.getRegister().getScope());
-                if (parent != null) scopes.add(parent);
-                Scope scope = new Scope(Scope.ScopeType.METHOD);
-                if (sender instanceof Player) scope.register("sender", new VPlayer((Player) sender));
-                if (sender instanceof CommandBlock) scope.register("sender", new VCommandBlock(((CommandBlock) sender)));
-                if (sender instanceof ConsoleCommandSender) scope.register("sender", (Method) (unit, params) -> new Null());
-                else return;
-                if (body instanceof AbstractFront) ((AbstractFront) body).setScopeSupplier(() -> scope);
-                else scopes.add(scope);
-                body.run(new ProcessUnit(scopes));
-                System.out.println("debug-----");
+                try {
+                    VariableRegister scopes = new VariableRegister();
+                    scopes.add(API.getRegister().getScope());
+                    if (parent != null) scopes.add(parent);
+                    Scope scope = new Scope(Scope.ScopeType.METHOD);
+                    if (sender instanceof Player) scope.register("sender", new VPlayer((Player) sender));
+                    if (sender instanceof CommandBlock) scope.register("sender", new VCommandBlock(((CommandBlock) sender)));
+                    if (sender instanceof ConsoleCommandSender) scope.register("sender", (Method) (unit, params) -> new Null());
+                    else return;
+                    if (body instanceof AbstractFront) ((AbstractFront) body).setScopeSupplier(() -> scope);
+                    else scopes.add(scope);
+                    body.run(new ProcessUnit(scopes));
+                    System.out.println("debug-----");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
