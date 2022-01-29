@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
+import me.brucefreedy.freedylang.lang.variable.VMap;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
 import me.brucefreedy.freedylang.lang.variable.text.SimpleText;
@@ -19,6 +20,9 @@ import org.bukkit.*;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
+import java.util.HashMap;
+import java.util.stream.IntStream;
 
 @Getter
 @AllArgsConstructor
@@ -128,7 +132,13 @@ public enum MethodDefs {
         } catch (Exception ignored) {}
         return new Null();
     }),
-
+    MAP((unit, params) -> {
+        HashMap<String, Object> map = new HashMap<>();
+        for (int i = 0; i + 1 < params.size(); i += 2) {
+            map.put(params.get(0).toString(), params.get(1));
+        }
+        return new VMap(map);
+    }),
     ;
     private final Method method;
 
