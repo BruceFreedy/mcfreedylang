@@ -1,7 +1,5 @@
 package me.brucefreedy.mcfreedylang.command;
 
-import me.brucefreedy.freedylang.lang.ProcessUnit;
-import me.brucefreedy.freedylang.lang.variable.VariableImpl;
 import me.brucefreedy.mcfreedylang.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

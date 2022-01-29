@@ -40,6 +40,7 @@ public class Register {
 
     @SneakyThrows
     public void load() {
+        if (commandRegister != null) commandRegister.unregisterCommands();
         commandRegister = new CommandRegister();
         processRegister = new ProcessRegister();
         processRegister.register();

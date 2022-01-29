@@ -31,7 +31,11 @@ public class CommandRegister {
     }
 
     public void registerCommands(CustomCommand... commands) {
-        Arrays.stream(commands).forEach(command -> scm.register("pluginname", command));//Register the plugin
+        Arrays.stream(commands).forEach(command -> scm.register(API.getPlugin().getName(), command));
+    }
+
+    public void unregisterCommands() {
+        scm.getCommands().stream().filter(command -> command instanceof CustomCommand).forEach(command -> command.unregister(scm));
     }
 
 }
