@@ -9,9 +9,11 @@ import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.registry.ProcessRegister;
 import me.brucefreedy.freedylang.registry.ProcessUtils;
+import me.brucefreedy.mcfreedylang.command.CommandRegister;
 import me.brucefreedy.mcfreedylang.event.RegisterProcessEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,6 +30,8 @@ public class Register {
     @Getter
     private ProcessRegister processRegister;
     @Getter
+    private CommandRegister commandRegister;
+    @Getter
     private Scope scope;
 
     public Register() {
@@ -36,6 +40,7 @@ public class Register {
 
     @SneakyThrows
     public void load() {
+        commandRegister = new CommandRegister();
         processRegister = new ProcessRegister();
         processRegister.register();
         Arrays.stream(ProcessDefs.values()).forEach(pDefs -> processRegister.register(pDefs.getSupplier()));

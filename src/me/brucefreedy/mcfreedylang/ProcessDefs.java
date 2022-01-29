@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.brucefreedy.freedylang.lang.Process;
 import me.brucefreedy.mcfreedylang.process.Async;
 import me.brucefreedy.mcfreedylang.process.CancelTask;
+import me.brucefreedy.mcfreedylang.process.Command;
 import me.brucefreedy.mcfreedylang.process.DelayTask;
 import me.brucefreedy.mcfreedylang.process.RepeatTask;
 import me.brucefreedy.mcfreedylang.process.event.EventListener;
@@ -33,6 +34,7 @@ public enum ProcessDefs {
     ENTITY_DEATH(EventListener.EntityDeath::new),
     PROJECTILE_HIT(EventListener.ProjectileHit::new),
     PROJECTILE_LAUNCH(EventListener.ProjectileLaunch::new),
+    COMMAND_REGISTER(Command::new),
     ;
     private final Supplier<Process<?>> supplier;
 }

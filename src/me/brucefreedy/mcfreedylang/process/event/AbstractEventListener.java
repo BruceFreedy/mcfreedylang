@@ -39,7 +39,6 @@ public abstract class AbstractEventListener<EV extends Event> implements Stealer
 
     @Override
     public void run(ProcessUnit processUnit) {
-        parent = processUnit.getVariableRegister().peek();
     }
 
     @Override
@@ -78,7 +77,7 @@ public abstract class AbstractEventListener<EV extends Event> implements Stealer
 
     @Override
     public void setProcess(Process<?> process) {
-
+        //empty body
     }
 
 }
