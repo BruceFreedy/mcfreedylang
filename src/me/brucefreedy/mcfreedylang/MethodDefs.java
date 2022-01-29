@@ -22,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
-import java.util.stream.IntStream;
 
 @Getter
 @AllArgsConstructor

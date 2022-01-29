@@ -2,7 +2,6 @@ package me.brucefreedy.mcfreedylang.variable;
 
 import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.abst.ListProcess;
-import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.variable.SimpleVar;
 import me.brucefreedy.freedylang.lang.variable.text.SimpleText;
 import me.brucefreedy.mcfreedylang.variable.enumvar.VMaterial;
