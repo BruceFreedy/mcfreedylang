@@ -56,12 +56,12 @@ public class Register {
         }
         File[] files = src.listFiles(File::isFile);
         if (files == null) throw new IOException();
+        Arrays.stream(MethodDefs.values()).forEach(m -> scope.register(m.name().toLowerCase(), m.getMethod()));
         Arrays.stream(files).forEach(file -> {
             Process<?> process = parsing(processRegister, file.toPath());
             ((AbstractFront) process).setScopeSupplier(() -> scope);
             process.run(new ProcessUnit(processRegister.getVariableRegister()));
         });
-        Arrays.stream(MethodDefs.values()).forEach(m -> scope.register(m.name().toLowerCase(), m.getMethod()));
 
     }
 
