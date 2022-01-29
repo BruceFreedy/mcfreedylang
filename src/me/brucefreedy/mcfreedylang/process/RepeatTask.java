@@ -61,6 +61,10 @@ public class RepeatTask implements Process<Object>, Stacker<Object>, ScopeChild 
 
     @Override
     public void run(ProcessUnit processUnit) {
+        if (parent == null && !hasNoParent) {
+            parent = processUnit.getVariableRegister().peek();
+            return;
+        }
         long delay, period;
         this.delay.run(processUnit);
         Object delayO = this.delay.get();
@@ -70,14 +74,10 @@ public class RepeatTask implements Process<Object>, Stacker<Object>, ScopeChild 
         Object periodO = this.period.get();
         if (periodO instanceof Number) period = ((Number) periodO).getNumber().longValue();
         else return;
-        VariableRegister register;
-        if (hasNoParent) {
-          register = processUnit.getVariableRegister();
-        } else {
-            register = new VariableRegister(processUnit.getVariableRegister());
-            if (!register.isEmpty()) register.set(0, API.getRegister().getScope());
-            if (!hasNoParent) register.set(processUnit.getVariableRegister().indexOf(parent), parent);
-        }        int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(API.getPlugin(),
+        VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
+        if (!register.isEmpty()) register.set(0, API.getRegister().getScope());
+        if (!hasNoParent) register.set(processUnit.getVariableRegister().indexOf(parent), parent);
+        int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(API.getPlugin(),
                 () -> body.run(new ProcessUnit(register)), delay, period);
         result = new SimpleNumber(id);
     }
