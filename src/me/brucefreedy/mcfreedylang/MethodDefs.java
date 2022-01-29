@@ -96,7 +96,7 @@ public enum MethodDefs {
         try {
             double min = ((Number) params.get(0)).getNumber().doubleValue();
             double max = ((Number) params.get(1)).getNumber().doubleValue();
-            return FastMath.random() * (max - min - 1) + min;
+            return ((FastMath.random() * (max - min)) + min);
         } catch (Exception ignored) {
             return new Null();
         }
@@ -125,6 +125,12 @@ public enum MethodDefs {
        } catch (Exception ignored) {}
        return new Null();
     }),
+    INT((unit, params) -> {
+        try {
+            return new SimpleNumber((int) Double.parseDouble(params.toString()));
+        } catch (Exception ignored) {}
+        return new Null();
+    }),
     STRING((unit, params) -> {
         try {
             return new SimpleText(params.toString());
@@ -138,6 +144,7 @@ public enum MethodDefs {
         }
         return new VMap(map);
     }),
+
     ;
     private final Method method;
 
