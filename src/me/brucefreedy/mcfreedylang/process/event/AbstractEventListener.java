@@ -49,6 +49,7 @@ public abstract class AbstractEventListener<EV extends Event> implements Stealer
 
     protected void wrap(EV event, Scope scope) {
         scope.register("eventName", event.getEventName());
+        scope.register("event", this);
     }
 
     protected void map(EV event, Scope scope) {}
