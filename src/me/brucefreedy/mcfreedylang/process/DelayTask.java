@@ -48,18 +48,19 @@ public class DelayTask implements Process<Object>, Stacker<Object>, ScopeChild {
 
     @Override
     public void run(ProcessUnit processUnit) {
-        if (parent == null && !hasNoParent) {
-            parent = processUnit.getVariableRegister().peek();
-            return;
-        }
         long delay;
         this.delay.run(processUnit);
         Object delayO = this.delay.get();
         if (delayO instanceof Number) delay = ((Number) delayO).getNumber().longValue();
         else return;
-        VariableRegister register = new VariableRegister(processUnit.getVariableRegister());
-        if (!register.isEmpty()) register.set(0, API.getRegister().getScope());
-        if (!hasNoParent) register.set(processUnit.getVariableRegister().indexOf(parent), parent);
+        VariableRegister register;
+        if (hasNoParent) {
+          register = processUnit.getVariableRegister();
+        } else {
+            register = new VariableRegister(processUnit.getVariableRegister());
+            if (!register.isEmpty()) register.set(0, API.getRegister().getScope());
+            if (!hasNoParent) register.set(processUnit.getVariableRegister().indexOf(parent), parent);
+        }
         int id = Bukkit.getScheduler().runTaskLater(API.getPlugin(),
                 () -> body.run(new ProcessUnit(register)), delay).getTaskId();
         result = new SimpleNumber(id);
