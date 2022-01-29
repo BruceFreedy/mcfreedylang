@@ -1,5 +1,6 @@
 package me.brucefreedy.mcfreedylang.process.event;
 
+import me.brucefreedy.common.List;
 import me.brucefreedy.freedylang.lang.Breaker;
 import me.brucefreedy.freedylang.lang.ParseUnit;
 import me.brucefreedy.freedylang.lang.Process;
@@ -31,7 +32,8 @@ public abstract class AbstractEventListener<EV extends Event> implements Stealer
         body = Process.parsing(parseUnit);
         if (body instanceof Breaker) body = Process.parsing(parseUnit);
         if (!(body instanceof AbstractFront)) parseUnit.steal(p -> body = p, () -> body);
-        parseUnit.getDeclaration().peek().add(this);
+        List<ScopeChild> peek = parseUnit.getDeclaration().peek();
+        if (peek != null) peek.add(this);
         parseUnit.add(this);
     }
 
