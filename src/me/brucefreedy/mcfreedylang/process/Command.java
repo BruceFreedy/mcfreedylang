@@ -37,7 +37,6 @@ public class Command implements ScopeChild, Process<Null> {
 
     @Override
     public void parse(ParseUnit parseUnit) {
-        System.out.println("debug-aa");
         Process<?> p = Process.parsing(parseUnit);
         if (p instanceof VariableImpl) name = String.join(".", ((VariableImpl) p).getNodes());
         else return;
@@ -48,7 +47,6 @@ public class Command implements ScopeChild, Process<Null> {
         API.getRegister().getCommandRegister().registerCommands(new CustomCommand(name) {
             @Override
             public void execute(CommandSender sender, String[] args) {
-                System.out.println("debug-123");
                 VariableRegister scopes = new VariableRegister();
                 scopes.add(API.getRegister().getScope());
                 if (parent != null) scopes.add(parent);
@@ -60,6 +58,7 @@ public class Command implements ScopeChild, Process<Null> {
                 if (body instanceof AbstractFront) ((AbstractFront) body).setScopeSupplier(() -> scope);
                 else scopes.add(scope);
                 body.run(new ProcessUnit(scopes));
+                System.out.println("debug-----");
             }
         });
     }

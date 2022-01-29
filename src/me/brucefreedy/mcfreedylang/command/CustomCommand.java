@@ -22,7 +22,6 @@ public abstract class CustomCommand extends Command implements PluginIdentifiabl
 
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-        System.out.println("debug-426");
         if (!Bukkit.isPrimaryThread()) return false;
         execute(sender, args);
         return true;
