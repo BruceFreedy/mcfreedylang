@@ -9,6 +9,7 @@ import me.brucefreedy.freedylang.lang.Processable;
 import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
 import me.brucefreedy.freedylang.lang.abst.ScopeChild;
+import me.brucefreedy.freedylang.lang.body.AbstractFront;
 import me.brucefreedy.freedylang.lang.scope.Scope;
 import me.brucefreedy.freedylang.lang.variable.VariableImpl;
 import me.brucefreedy.freedylang.lang.variable.VariableRegister;
@@ -36,6 +37,7 @@ public class Command implements ScopeChild, Process<Null> {
 
     @Override
     public void parse(ParseUnit parseUnit) {
+        System.out.println("debug-aa");
         Process<?> p = Process.parsing(parseUnit);
         if (p instanceof VariableImpl) name = String.join(".", ((VariableImpl) p).getNodes());
         else return;
@@ -46,7 +48,7 @@ public class Command implements ScopeChild, Process<Null> {
         API.getRegister().getCommandRegister().registerCommands(new CustomCommand(name) {
             @Override
             public void execute(CommandSender sender, String[] args) {
-                if (!Bukkit.isPrimaryThread()) return;
+                System.out.println("debug-123");
                 VariableRegister scopes = new VariableRegister();
                 scopes.add(API.getRegister().getScope());
                 if (parent != null) scopes.add(parent);
@@ -55,6 +57,8 @@ public class Command implements ScopeChild, Process<Null> {
                 if (sender instanceof CommandBlock) scope.register("sender", new VCommandBlock(((CommandBlock) sender)));
                 if (sender instanceof ConsoleCommandSender) scope.register("sender", (Method) (unit, params) -> new Null());
                 else return;
+                if (body instanceof AbstractFront) ((AbstractFront) body).setScopeSupplier(() -> scope);
+                else scopes.add(scope);
                 body.run(new ProcessUnit(scopes));
             }
         });
