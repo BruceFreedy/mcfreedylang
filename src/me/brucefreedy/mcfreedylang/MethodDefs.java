@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.brucefreedy.freedylang.lang.abst.Method;
 import me.brucefreedy.freedylang.lang.abst.Null;
+import me.brucefreedy.freedylang.lang.scope.ScopeSupplier;
 import me.brucefreedy.freedylang.lang.variable.VMap;
 import me.brucefreedy.freedylang.lang.variable.number.Number;
 import me.brucefreedy.freedylang.lang.variable.number.SimpleNumber;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 @Getter
 @AllArgsConstructor
 public enum MethodDefs {
+    MINECRAFT((unit, params) -> (ScopeSupplier) () -> API.getRegister().getScope()),
     INVENTORY((unit, params) -> {
         if (params.size() == 1) {
             try {
