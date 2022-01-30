@@ -53,12 +53,12 @@ public enum MethodDefs {
     MATERIAL((unit, params) -> {
         Object first = params.first();
         if (first == null) return new VMaterial(Material.AIR);
-        else {
-            try {
-                return new VMaterial(Material.valueOf(first.toString()));
-            } catch (Exception ignored) {
-                return new VMaterial(Material.AIR);
-            }
+        try {
+            if (first instanceof Number) {
+                return new VMaterial(Material.values()[((Number) first).getNumber().intValue()]);
+            } else return new VMaterial(Material.valueOf(first.toString()));
+        } catch (Exception ignored) {
+            return new VMaterial(Material.AIR);
         }
     }),
     LOCATION((unit, params) -> {
